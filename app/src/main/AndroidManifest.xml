@@ -37,7 +37,7 @@
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="ttb"
+                <data android:scheme="txbb"
                     android:host="tag.id" />
             </intent-filter>
 
