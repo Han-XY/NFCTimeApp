@@ -1,37 +1,44 @@
 package com.txbb.nfctimeapp.backend;
 
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
+import android.util.Log;
+
+import java.time.Instant;
+
+
+import java.util.UUID;
+
 public class TagManager {
 
-    /**
-    public void onScan(boolean isEmpty, String data, TagInterface caller) {
-
-        if (isEmpty) {
-
-            if (caller.isInRegistration()) {
-                 ...
-                // tell caller that it needs to register tag
-
-                return
-            } else if (caller.isInNewTag()) {
-
-                // do write to the tag
-
-            }
-
-
-
-
-        }
+    public void onRead() {
 
     }
 
-
-
-    public void prepareNewIdWrite() {
-
-        # generate new Id
+    public void registerId() {
 
     }
-    **/
 
+    private void stopTag(String id) {
+
+    }
+
+    private void startTag(String id) {
+
+    }
+
+    private long getCurrentTime() {
+        return Instant.now().getEpochSecond();
+    }
+
+    public String generateUUID(){
+
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
+
+    }
 }
