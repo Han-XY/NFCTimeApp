@@ -15,11 +15,11 @@ import java.util.UUID;
 
 public class TagManager {
 
-    public void onRead() {
+    public void onRead(boolean isEmpty, String id) {
 
     }
 
-    public void registerId() {
+    public void registerId(String id) {
 
     }
 

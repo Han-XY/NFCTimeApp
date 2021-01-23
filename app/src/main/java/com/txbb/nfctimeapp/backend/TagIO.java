@@ -1,6 +1,6 @@
 package com.txbb.nfctimeapp.backend;
+import com.txbb.nfctimeapp.FrontBackInterface;
 
-import android.graphics.Color;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -12,17 +12,62 @@ import android.util.Log;
 import android.content.Intent;
 
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TagIO extends AppCompatActivity {
 
     private TagManager tagManager;
+    private FrontBackInterface frontBackInterface;
+
+    private enum State {
+        REGISTRATION,
+        STANDARD,
+        NEW_TAG
+    }
+
+    @Override
+    public void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        setIntent(intent);
+
+        // get state
+        State state = frontBackInterface.getCurrentState();
+
+        switch (state) {
+            // In either state of STANDARD or REGISTRATION, Read Tag information
+            case STANDARD:
+            case REGISTRATION:
+                this.onRead();
+                break;
+
+            // In new_tag state, overwrite the tag regardless;
+            case NEW_TAG:
+                this.onWrite();
+        }
+    }
 
     public void onRead() {
+
+        if (this.isTagEmpty()) {
+            tagManager.onRead(true, null);
+        } else {
+            tagManager.onRead(false, this.readTag());
+        }
 
     }
 
     public void onWrite() {
+
+        // Assign a new uuid
+        String newID = tagManager.generateUUID();
+
+        // Write the new ID into tag, if succeed, register id
+        if (this.writeTag(newID)){
+            tagManager.registerId(newID);
+        } else {
+            // return error message to frontend
+        }
 
     }
 
@@ -61,7 +106,7 @@ public class TagIO extends AppCompatActivity {
         return id;
     }
 
-    private void writeTag(String id) {
+    private boolean writeTag(String id) {
 
         // id format: 123e4567-e89b-12d3-a456-556642440000
         // load example: txbb://tag.id/123e4567-e89b-12d3-a456-556642440000
@@ -84,14 +129,18 @@ public class TagIO extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.i("NFC Tag", "Message cannot be sent, please try again!");
-                } finally {
-                    try {
-                        ndef.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.i("NFC Tag", "Connection cannot be closed, please try again!");
-                    }
+                    return false;
                 }
+                try {
+                    ndef.close();
+                    return true;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i("NFC Tag", "Connection cannot be closed, please try again!");
+                    return false;
+                }
+
             }
         } else if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(getIntent().getAction())) {
             Tag tag = (Tag) getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG);
@@ -103,20 +152,27 @@ public class TagIO extends AppCompatActivity {
                     NdefMessage ndefMessage = new NdefMessage(rtdUriRecord1);
                     format.format(ndefMessage);
                     Log.i("NFC Tag", "Done");
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.i("NFC Tag", "Message cannot be sent, please try again!");
-                } finally {
-                    try {
-                        format.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.i("NFC Tag", "Connection cannot be closed, please try again!");
-                        System.out.print("Connection cannot be closed, please try again!");
-                    }
+                    return false;
+
                 }
+                try {
+                    format.close();
+                    return true;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i("NFC Tag", "Connection cannot be closed, please try again!");
+                    return false;
+                }
+
             }
         }
+
+        return false;
     }
 
 }
