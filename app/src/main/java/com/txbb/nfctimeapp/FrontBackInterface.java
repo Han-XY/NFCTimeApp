@@ -29,7 +29,6 @@ public class FrontBackInterface {
         this.tagManager.syncRequest();
     }
 
-
     /* Back to front */
 
     public void onUnknownTagRead() {
@@ -46,6 +45,14 @@ public class FrontBackInterface {
 
     public void sync(Map<String, TagProperties> tags) {
         this.currentActor.sync(tags);
+    }
+
+    // below are the function
+
+    // get the current state of the activity: one of STANDARD, REGISTRATION and NEW_TAG
+    public void getCurrentState() {
+
+
     }
 
 }

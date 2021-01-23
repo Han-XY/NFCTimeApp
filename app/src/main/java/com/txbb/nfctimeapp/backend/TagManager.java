@@ -8,9 +8,12 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.util.Log;
 
+import com.txbb.nfctimeapp.TagProperties;
+
 import java.time.Instant;
 
 
+import java.util.Map;
 import java.util.UUID;
 
 public class TagManager {
@@ -20,6 +23,23 @@ public class TagManager {
     }
 
     public void registerId() {
+
+    }
+
+    // set tagProperties for a tag id
+    // used both for tag creation and tag update
+    public void registerTag(String id, TagProperties tagProperties) {
+
+    }
+
+    // delete the id and its associated data from our database
+    public void deleteTag(String id) {
+
+    }
+
+    // get a map of from all the ids to properties from backend database
+    // call sync() after the data is available
+    public void syncRequest() {
 
     }
 
