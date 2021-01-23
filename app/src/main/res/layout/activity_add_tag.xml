@@ -15,21 +15,19 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="55dp" />
+            android:layout_height="50dp" />
 
-        <TextView
-            android:id="@+id/textView4"
+        <EditText
+            android:id="@+id/editTextTextPersonName3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="28dp" />
+            android:ems="10"
+            android:inputType="textPersonName" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,6 +57,11 @@
                 </TableLayout>
             </LinearLayout>
         </ScrollView>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
     </LinearLayout>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -75,6 +78,19 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_add_tag" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_right_arrow" />
+
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_add_tag"
+        android:padding="20dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

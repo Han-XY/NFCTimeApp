@@ -37,11 +37,11 @@ public class AddTagActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_tag);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("New activity!");  // provide compatibility to all the versions
 
         this.categoryManager = new CategoryManager();
         this.buttonGroup = new CategoryButtonGroup();
         this.addCategoryButtons();
-
     }
 
     private TableRow newRow() {

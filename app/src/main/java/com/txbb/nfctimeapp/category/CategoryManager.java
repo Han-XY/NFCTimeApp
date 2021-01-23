@@ -19,14 +19,18 @@ public class CategoryManager {
             Ideally these should be read from disc.
         */
 
-        for (int i = 0; i < 50; i ++) {
-            this.categoryList.add(new Category(
-                    "test category " + i,
-                    new int[]{R.drawable.ic_book, R.drawable.ic_gym,
-                            R.drawable.ic_music,  R.drawable.ic_pancake,
-                    }[new Random().nextInt(4)]
-            ));
+        for (int i = 0; i < 17; i ++) {
+            int iconId = new int[]{R.drawable.ic_book, R.drawable.ic_gym,
+                    R.drawable.ic_music,  R.drawable.ic_pancake,
+            }[new Random().nextInt(4)];
         }
+    }
+
+    private void fetchCategories() {
+        categoryList.add(new Category("Reading", R.drawable.ic_book));
+        categoryList.add(new Category("Exercise", R.drawable.ic_gym));
+        categoryList.add(new Category("Cooking", R.drawable.ic_pancake));
+        categoryList.add(new Category("Guitar", R.drawable.ic_music));
     }
 
     /**
