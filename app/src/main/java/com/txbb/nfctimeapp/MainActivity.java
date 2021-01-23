@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
+
         Tag tag1 = new Tag("123","tag1", "cate1",1);
         DatabaseHandler.createTag(tag1, this);
 
