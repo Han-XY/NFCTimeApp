@@ -207,6 +207,21 @@ public class DatabaseHandler {
 
     }
 
+    // Check if id is in the database
+    public static boolean checkTagId(String id, Context context){
+
+        ArrayList<NfcTag> tags = getTagList(context);
+
+        for (NfcTag tag: tags){
+            if (tag.getId().equals(id)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Get the NfcTag by its id
     public static NfcTag getTagById(String id, Context context){
 
         ArrayList<NfcTag> tags = getTagList(context);
@@ -218,6 +233,55 @@ public class DatabaseHandler {
         }
 
         return null;
+    }
+
+    // Update the NfcTag start time by its id
+    public static void updateTagStartTime(String id, long startTime, Context context){
+        ArrayList<NfcTag> tags = getTagList(context);
+
+        for (NfcTag tag: tags){
+            if (tag.getId().equals(id)) {
+                tag.setStartTime(startTime);
+                break;
+            }
+        }
+
+        writeTagToFile(tags, context);
+
+    }
+
+    // Update the NfcTag start time by its id
+    public static void updateTagEndTime(String id, long endTime, Context context){
+        ArrayList<NfcTag> tags = getTagList(context);
+
+        for (NfcTag tag: tags){
+            if (tag.getId().equals(id)) {
+                tag.setEndTime(endTime);
+                break;
+            }
+        }
+
+        writeTagToFile(tags, context);
+
+    }
+
+    public static void deleteTagById(String id, Context context){
+        ArrayList<NfcTag> tags = getTagList(context);
+
+        // TEST ONLY
+        System.out.println("Before deletion the array size is " + String.valueOf(tags.size()));
+
+        for (NfcTag tag: tags){
+            if (tag.getId().equals(id)) {
+                tags.remove(tag);
+                break;
+            }
+        }
+
+        // TEST ONLY
+        System.out.println("Successfully deleted, new array size is " + String.valueOf(tags.size()));
+
+        writeTagToFile(tags, context);
     }
 
 }

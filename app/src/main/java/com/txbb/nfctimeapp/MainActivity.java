@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         NfcTag tag2 = new NfcTag("dfb09c0c-a53c-4203-a02f-3183b85a3fba","tag2", "cate2");
         DatabaseHandler.createTag(tag2, this);
 
+        DatabaseHandler.deleteTagById("dfb09c0c-a53c-4203-a02f-3183b85a3fba", this);
+
         CategoryHistory categoryHistory1 = new CategoryHistory("h1");
         DatabaseHandler.createCategoryHistory(categoryHistory1, this);
 
