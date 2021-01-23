@@ -1,14 +1,18 @@
 package com.txbb.nfctimeapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.Menu;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.txbb.nfctimeapp.database.CategoryHistory;
 import com.txbb.nfctimeapp.database.DatabaseHandler;
+import com.txbb.nfctimeapp.database.Session;
 import com.txbb.nfctimeapp.database.Tag;
 
 import androidx.navigation.NavController;
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -58,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
         Tag tag2 = new Tag("12","tag2", "cate2",2);
         DatabaseHandler.createTag(tag2, this);
+
+        CategoryHistory categoryHistory1 = new CategoryHistory("h1");
+        DatabaseHandler.createCategoryHistory(categoryHistory1, this);
+
+        Session mySession = new Session(1,3000);
+        DatabaseHandler.addSession("h1", mySession, this);
 
         System.out.println("finished");
     }

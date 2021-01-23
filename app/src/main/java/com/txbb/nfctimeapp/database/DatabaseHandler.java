@@ -1,131 +1,187 @@
 package com.txbb.nfctimeapp.database;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class DatabaseHandler {
-    // reset tags.json with fake tag
-    //
-    public static void initTag(Context context) {
-        Gson gson = new Gson();
-        // fake tag
-        Tag tag = new Tag("123","tag1", "cate1",1);
-        try {
-            ArrayList<Tag> prev_tags = new ArrayList<>();
-            prev_tags.add(tag);
 
-            // Write to file
+    private static Gson gson = new Gson();
+
+    private static boolean checkFileExists(String fileName, Context context){
+        File file = new File(context.getFilesDir(),fileName);
+        return file.exists();
+    }
+
+    private static void writeTagToFile(ArrayList<Tag> content, Context context) {
+
+        try {
+            // Create output handler
             FileOutputStream fileOutputStream = context.openFileOutput("tags.json", Context.MODE_PRIVATE);
-            // convert arraylist to json string
-            String json = gson.toJson(prev_tags);
+
+            // Convert ArrayList to json string
+            String json = gson.toJson(content);
             fileOutputStream.write(json.getBytes());
             fileOutputStream.close();
 
+        } catch (IOException e) {
+            System.out.println("Cannot open file");
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void writeCategoryHistoryToFile(ArrayList<CategoryHistory> content, Context context) {
+
+        try {
+            // Create output handler
+            FileOutputStream fileOutputStream = context.openFileOutput("categoryHistory.json", Context.MODE_PRIVATE);
+            // Convert ArrayList to json string
+            String json = gson.toJson(content);
+            fileOutputStream.write(json.getBytes());
+            fileOutputStream.close();
+
+        } catch (IOException e) {
+            System.out.println("Cannot open file");
+            e.printStackTrace();
+        }
+
+    }
+
+    private static String readFileContent(String fileName, Context context){
+
+        // Default file output
+        String fileContent = "";
+
+        try {
             // read from file: only file name need to be change
-            FileInputStream fin1 = context.openFileInput("tags.json");
-            int d;
-            String temp1="";
-            while( (d = fin1.read()) != -1){
-                temp1 = temp1 + Character.toString((char)d);
+            FileInputStream fin = context.openFileInput(fileName);
+            int c;
+            while ((c = fin.read()) != -1) {
+                fileContent = fileContent + Character.toString((char) c);
             }
-            fin1.close();
+            fin.close();
 
-            // convert string back to arraylist
-            ArrayList<Tag> s = gson.fromJson(temp1, new TypeToken<ArrayList<Tag>>() {}.getType());
         } catch (IOException e) {
-            System.out.println("final");
+            System.out.println("Cannot open file");
             e.printStackTrace();
         }
 
+        return fileContent;
     }
 
-    // register a new tag to the db
+    public static void initTag(Context context) {
+
+        // initialise the file
+        // fake tag: for testing only
+
+        Tag tag = new Tag("123","tag1", "cate1",1);
+        ArrayList<Tag> prevTags = new ArrayList<>();
+        prevTags.add(tag);
+
+
+        writeTagToFile(prevTags, context);
+        String fileContent = readFileContent("tags.json", context);
+        ArrayList<Tag> s = gson.fromJson(fileContent, new TypeToken<ArrayList<Tag>>() {}.getType());
+
+    }
+
+
     public static void createTag(Tag tag, Context context){
-        Gson gson = new Gson();
-        try {
-            // Read database
-            FileInputStream fin = context.openFileInput("tags.json");
-            int c;
-            String temp="";
-            while( (c = fin.read()) != -1){
-                temp = temp + Character.toString((char)c);
-            }
-            fin.close();
 
-            ArrayList<Tag> prev_tags = gson.fromJson(temp, new TypeToken<ArrayList<Tag>>() {}.getType());
-            prev_tags.add(tag);
+        // For resting only: manually reset file
+        initTag(context);
 
-            // Write to file
-            FileOutputStream fileOutputStream = context.openFileOutput("tags.json", Context.MODE_PRIVATE);
-            String json = gson.toJson(prev_tags);
-            fileOutputStream.write(json.getBytes());
-            fileOutputStream.close();
+        ArrayList<Tag> prevTags = new ArrayList<Tag>();
 
-            FileInputStream fin1 = context.openFileInput("tags.json");
-            int d;
-            String temp1="";
-            while( (d = fin1.read()) != -1){
-                temp1 = temp1 + Character.toString((char)d);
-            }
-            fin1.close();
-
-            ArrayList<Tag> s = gson.fromJson(temp1, new TypeToken<ArrayList<Tag>>() {}.getType());
-            System.out.println(s.get(0).getId());
-
-        } catch (IOException e) {
-            System.out.println("final");
-            e.printStackTrace();
+        if (checkFileExists("tags.json", context)){
+            System.out.println("File Exists");
+            String fileContent = readFileContent("tags.json", context);
+            prevTags = gson.fromJson(fileContent, new TypeToken<ArrayList<Tag>>() {}.getType());
         }
+
+        prevTags.add(tag);
+
+        writeTagToFile(prevTags, context);
+
+        // Read back to see if it is working
+        String newFileContent = readFileContent("tags.json", context);
+        ArrayList<Tag> s = gson.fromJson(newFileContent, new TypeToken<ArrayList<Tag>>() {}.getType());
+        System.out.println(s);
+        System.out.println(s.get(0).getName());
+
     }
 
-    public void createCategoryHistory(CategoryHistory category) {
-        Gson gson = new Gson();
-        try {
-            JsonReader reader = new JsonReader(new FileReader("categoryHistory.json"));
 
-            List<CategoryHistory> categories = gson.fromJson(reader, CategoryHistory.class);
+    public static void initCategoryHistory(Context context) {
 
-            categories.add(category);
-            gson.toJson(categories, new FileWriter("tags.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // initialise the file
+        // fake categoryHistory: for testing only
+        CategoryHistory category = new CategoryHistory("categoryName");
+        ArrayList<CategoryHistory> categories = new ArrayList<>();
+        categories.add(category);
+
+
+        writeCategoryHistoryToFile(categories, context);
+        String fileContent = readFileContent("categoryHistory.json", context);
+        ArrayList<CategoryHistory> s = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {
+        }.getType());
+
     }
 
-    public void addSession(String categoryName, Session session, Context context){
-        Gson gson =  new Gson();
-        try {
-            FileInputStream fin = context.openFileInput("categoryHistory.json");
-            int c;
-            String temp="";
-            while( (c = fin.read()) != -1){
-                temp = temp + Character.toString((char)c);
-            }
-            fin.close();
+    public static void createCategoryHistory(CategoryHistory category, Context context) {
 
-            ArrayList<CategoryHistory> categories = gson.fromJson(temp, CategoryHistory.class);
+        // For resting only: manually reset file
+        initCategoryHistory(context);
 
-            for (CategoryHistory c: categories){
-                if (c.getName().equals(categoryName)) {
-                    c.addSession(session);
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        ArrayList<CategoryHistory> categories = new ArrayList<CategoryHistory>();
+
+        if (checkFileExists("categoryHistory.json", context)){
+            System.out.println("File Exists");
+            String fileContent = readFileContent("categoryHistory.json", context);
+            categories = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
         }
+
+        categories.add(category);
+
+        writeCategoryHistoryToFile(categories, context);
+
+        // Read back to see if it is working
+        String newFileContent = readFileContent("categoryHistory.json", context);
+        ArrayList<CategoryHistory> s = gson.fromJson(newFileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
+        System.out.println(s);
+        System.out.println(s.get(0).getName());
+
+    }
+
+    public static void addSession(String categoryName, Session session, Context context){
+
+        String fileContent = readFileContent("categoryHistory.json", context);
+        ArrayList<CategoryHistory> categories = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
+
+        for (CategoryHistory c: categories){
+            if (c.getName().equals(categoryName)) {
+                c.addSession(session);
+            }
+        }
+
+        writeCategoryHistoryToFile(categories, context);
+
+        // Read back to see if it is working
+        fileContent = readFileContent("categoryHistory.json", context);
+        ArrayList<CategoryHistory> s = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
+        System.out.println(s.get(1).getSessions());
+        System.out.println(s.get(1).getSessions().get(0).getDuration());
+
+
     }
 
 }

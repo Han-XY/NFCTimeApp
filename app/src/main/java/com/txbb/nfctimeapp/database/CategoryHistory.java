@@ -1,8 +1,6 @@
 package com.txbb.nfctimeapp.database;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class CategoryHistory {
 
