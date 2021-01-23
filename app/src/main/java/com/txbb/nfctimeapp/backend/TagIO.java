@@ -37,8 +37,11 @@ public class TagIO extends AppCompatActivity {
         switch (state) {
             // In either state of STANDARD or REGISTRATION, Read Tag information
             case STANDARD:
+                this.onStandardRead();
+                break;
+
             case REGISTRATION:
-                this.onRead();
+                this.onRegistrationRead();
                 break;
 
             // In new_tag state, overwrite the tag regardless;
@@ -47,7 +50,13 @@ public class TagIO extends AppCompatActivity {
         }
     }
 
-    public void onRead() {
+    public void onStandardRead() {
+        if (!this.isTagEmpty()) {
+            tagManager.onRead(false, this.readTag());
+        }
+    }
+
+    public void onRegistrationRead() {
 
         if (this.isTagEmpty()) {
             tagManager.onRead(true, null);
