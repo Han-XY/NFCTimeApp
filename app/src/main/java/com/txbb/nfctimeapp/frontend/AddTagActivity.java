@@ -49,6 +49,7 @@ public class AddTagActivity extends CustomActivity implements Actor {
     @Override
     public void sync(Map<String, TagProperties> tags) {
         List<Actor> fragments = super.getFragments();
+
         for (Actor actor : fragments) {
             actor.sync(tags);
         }

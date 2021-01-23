@@ -3,6 +3,7 @@ package com.txbb.nfctimeapp.frontend;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
@@ -23,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends CustomActivity implements Actor {
@@ -32,12 +34,10 @@ public class MainActivity extends CustomActivity implements Actor {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         /* Initialisation of frontend/backend interface */
 
-        TagManager tagManager = new TagManager();
-        super.frontBackInterface = new FrontBackInterface(this, tagManager);
-
+        super.initCategoryManager();
+        super.frontBackInterface = new FrontBackInterface(this);
 
         /* Other initialisation */
 
@@ -88,6 +88,12 @@ public class MainActivity extends CustomActivity implements Actor {
 
     @Override
     public void sync(Map<String, TagProperties> tags) {
+        List<Actor> fragments = super.getFragments();
 
+        System.out.println(fragments.size());
+
+        for (Actor actor : fragments) {
+            actor.sync(tags);
+        }
     }
 }

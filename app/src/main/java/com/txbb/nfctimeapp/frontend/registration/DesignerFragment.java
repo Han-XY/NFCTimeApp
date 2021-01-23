@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.txbb.nfctimeapp.R;
+import com.txbb.nfctimeapp.TagProperties;
+import com.txbb.nfctimeapp.backend.Actor;
 import com.txbb.nfctimeapp.backend.CustomActivity;
 import com.txbb.nfctimeapp.category.Category;
 import com.txbb.nfctimeapp.category.CategoryButtonGroup;
@@ -30,11 +32,10 @@ import com.txbb.nfctimeapp.category.CategoryManager;
 import com.txbb.nfctimeapp.util.Units;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
-public class DesignerFragment extends Fragment {
-
-    private CategoryManager categoryManager;
+public class DesignerFragment extends Fragment implements Actor {
 
     private CategoryButtonGroup buttonGroup;
 
@@ -83,7 +84,6 @@ public class DesignerFragment extends Fragment {
             }
         });
 
-        this.categoryManager = new CategoryManager();
         this.buttonGroup = new CategoryButtonGroup();
         this.addCategoryButtons();
     }
@@ -112,7 +112,8 @@ public class DesignerFragment extends Fragment {
         TableRow iconRow = newRow();
         TableRow captionRow = newRow();
 
-        List<Category> categoryList = this.categoryManager.getCategories();
+        CategoryManager categoryManager = ((CustomActivity) getActivity()).getCategoryManager();
+        List<Category> categoryList = categoryManager.getCategories();
 
         for (int i = 0; i < categoryList.size(); i ++) {
 
@@ -149,5 +150,25 @@ public class DesignerFragment extends Fragment {
 
     private boolean hasSelectedCategory() {
         return this.buttonGroup.isSelected();
+    }
+
+    @Override
+    public void onUnknownTagRead() {
+
+    }
+
+    @Override
+    public void onKnownTagRead() {
+
+    }
+
+    @Override
+    public void onTagRegister(String id) {
+
+    }
+
+    @Override
+    public void sync(Map<String, TagProperties> tags) {
+
     }
 }

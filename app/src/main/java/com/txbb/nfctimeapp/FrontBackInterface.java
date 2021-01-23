@@ -2,6 +2,7 @@ package com.txbb.nfctimeapp;
 
 import com.txbb.nfctimeapp.backend.Actor;
 import com.txbb.nfctimeapp.backend.TagManager;
+import com.txbb.nfctimeapp.frontend.AppState;
 
 import java.util.Map;
 
@@ -10,9 +11,9 @@ public class FrontBackInterface {
     private Actor currentActor;
     private TagManager tagManager;
 
-    public FrontBackInterface(Actor currentActor, TagManager tagManager) {
+    public FrontBackInterface(Actor currentActor) {
         this.currentActor = currentActor;
-        this.tagManager = tagManager;
+        this.tagManager = new TagManager(this);
     }
 
     /* Front to back */
@@ -32,9 +33,8 @@ public class FrontBackInterface {
     /* Back to front */
 
     // get the current state of the activity: one of STANDARD, REGISTRATION and NEW_TAG
-    // need to change the return type
-    public void getCurrentState() {
-
+    public AppState getCurrentState() {
+        return AppState.REGISTRATION;
     }
 
     // standard state: read a non-empty tag, give start signal

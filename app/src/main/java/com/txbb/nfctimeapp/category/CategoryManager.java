@@ -65,4 +65,14 @@ public class CategoryManager {
         return this.categoryList;
     }
 
+    public Category getCategoryFromId(int categoryId) {
+        for (Category category : this.categoryList) {
+            if (category.getCategoryId() == categoryId) {
+                return category;
+            }
+        }
+
+        throw new RuntimeException("Unexpected category ID detected");
+    }
+
 }
