@@ -16,12 +16,14 @@ public class DatabaseHandler {
 
     private static Gson gson = new Gson();
 
+    // Check if the file exists under the context directory
     private static boolean checkFileExists(String fileName, Context context){
         File file = new File(context.getFilesDir(),fileName);
         return file.exists();
     }
 
-    private static void writeTagToFile(ArrayList<Tag> content, Context context) {
+    // Write array list of NfcTag to json file "tags.json"
+    private static void writeTagToFile(ArrayList<NfcTag> content, Context context) {
 
         try {
             // Create output handler
@@ -39,6 +41,7 @@ public class DatabaseHandler {
 
     }
 
+    // Write array list of CategoryHistory to json file "categoryHistory.json"
     private static void writeCategoryHistoryToFile(ArrayList<CategoryHistory> content, Context context) {
 
         try {
@@ -56,6 +59,7 @@ public class DatabaseHandler {
 
     }
 
+    // Read and return file which has fileName under context file directory content in String
     private static String readFileContent(String fileName, Context context){
 
         // Default file output
@@ -78,43 +82,71 @@ public class DatabaseHandler {
         return fileContent;
     }
 
+    // Get NfcTag List from json file "tags.json",
+    // if there is no such file, return an empty array list
+    private static ArrayList<NfcTag> getTagList(Context context){
+
+        ArrayList<NfcTag> tags = new ArrayList<NfcTag>();
+
+        if (checkFileExists("tags.json", context)){
+            System.out.println("File Exists");
+            String fileContent = readFileContent("tags.json", context);
+            tags = gson.fromJson(fileContent, new TypeToken<ArrayList<NfcTag>>() {}.getType());
+        }
+
+        return tags;
+
+    }
+
+    // Get CategoryHistory List from json file "categoryHistory.json",
+    // if there is no such file, return an empty array list
+    private static ArrayList<CategoryHistory> getCategoryHistoryList(Context context){
+
+        ArrayList<CategoryHistory> categories = new ArrayList<CategoryHistory>();
+
+        if (checkFileExists("categoryHistory.json", context)){
+            System.out.println("File Exists");
+            String fileContent = readFileContent("categoryHistory.json", context);
+            categories = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
+        }
+
+        return categories;
+
+    }
+
+    // FOR TEST ONLY
     public static void initTag(Context context) {
 
         // initialise the file
         // fake tag: for testing only
 
-        Tag tag = new Tag("123","tag1", "cate1",1);
-        ArrayList<Tag> prevTags = new ArrayList<>();
+        NfcTag tag = new NfcTag("123","tag1", "cate1");
+        ArrayList<NfcTag> prevTags = new ArrayList<>();
         prevTags.add(tag);
 
 
         writeTagToFile(prevTags, context);
         String fileContent = readFileContent("tags.json", context);
-        ArrayList<Tag> s = gson.fromJson(fileContent, new TypeToken<ArrayList<Tag>>() {}.getType());
+        ArrayList<NfcTag> s = gson.fromJson(fileContent, new TypeToken<ArrayList<NfcTag>>() {}.getType());
 
     }
 
 
-    public static void createTag(Tag tag, Context context){
+    // Create a tah and add the tag to the list
+    public static void createTag(NfcTag tag, Context context){
 
         // For resting only: manually reset file
         initTag(context);
 
-        ArrayList<Tag> prevTags = new ArrayList<Tag>();
+        // Get an arraylist of nfctags from the json file
+        ArrayList<NfcTag> tags = getTagList(context);
+        tags.add(tag);
 
-        if (checkFileExists("tags.json", context)){
-            System.out.println("File Exists");
-            String fileContent = readFileContent("tags.json", context);
-            prevTags = gson.fromJson(fileContent, new TypeToken<ArrayList<Tag>>() {}.getType());
-        }
-
-        prevTags.add(tag);
-
-        writeTagToFile(prevTags, context);
+        writeTagToFile(tags, context);
 
         // Read back to see if it is working
         String newFileContent = readFileContent("tags.json", context);
-        ArrayList<Tag> s = gson.fromJson(newFileContent, new TypeToken<ArrayList<Tag>>() {}.getType());
+        ArrayList<NfcTag> s = gson.fromJson(newFileContent, new TypeToken<ArrayList<NfcTag>>() {}.getType());
         System.out.println(s);
         System.out.println(s.get(0).getName());
 
@@ -142,21 +174,14 @@ public class DatabaseHandler {
         // For resting only: manually reset file
         initCategoryHistory(context);
 
-        ArrayList<CategoryHistory> categories = new ArrayList<CategoryHistory>();
-
-        if (checkFileExists("categoryHistory.json", context)){
-            System.out.println("File Exists");
-            String fileContent = readFileContent("categoryHistory.json", context);
-            categories = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
-        }
-
+        // Get an arraylist of CategoryHistory from the json file
+        ArrayList<CategoryHistory> categories = getCategoryHistoryList(context);
         categories.add(category);
 
         writeCategoryHistoryToFile(categories, context);
 
         // Read back to see if it is working
-        String newFileContent = readFileContent("categoryHistory.json", context);
-        ArrayList<CategoryHistory> s = gson.fromJson(newFileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
+        ArrayList<CategoryHistory> s = getCategoryHistoryList(context);
         System.out.println(s);
         System.out.println(s.get(0).getName());
 
@@ -164,8 +189,7 @@ public class DatabaseHandler {
 
     public static void addSession(String categoryName, Session session, Context context){
 
-        String fileContent = readFileContent("categoryHistory.json", context);
-        ArrayList<CategoryHistory> categories = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
+        ArrayList<CategoryHistory> categories = getCategoryHistoryList(context);
 
         for (CategoryHistory c: categories){
             if (c.getName().equals(categoryName)) {
@@ -176,12 +200,24 @@ public class DatabaseHandler {
         writeCategoryHistoryToFile(categories, context);
 
         // Read back to see if it is working
-        fileContent = readFileContent("categoryHistory.json", context);
-        ArrayList<CategoryHistory> s = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
+        String newFileContent = readFileContent("categoryHistory.json", context);
+        ArrayList<CategoryHistory> s = gson.fromJson(newFileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
         System.out.println(s.get(1).getSessions());
         System.out.println(s.get(1).getSessions().get(0).getDuration());
 
+    }
 
+    public static NfcTag getTagById(String id, Context context){
+
+        ArrayList<NfcTag> tags = getTagList(context);
+
+        for (NfcTag tag: tags){
+            if (tag.getId().equals(id)) {
+                return tag;
+            }
+        }
+
+        return null;
     }
 
 }

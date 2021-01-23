@@ -13,7 +13,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.txbb.nfctimeapp.database.CategoryHistory;
 import com.txbb.nfctimeapp.database.DatabaseHandler;
 import com.txbb.nfctimeapp.database.Session;
-import com.txbb.nfctimeapp.database.Tag;
+import com.txbb.nfctimeapp.database.NfcTag;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -57,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
 
-        Tag tag1 = new Tag("123","tag1", "cate1",1);
+        NfcTag tag1 = new NfcTag("9bda1e29-fb67-4f59-92df-9969bbed1b0a","tag1", "cate1");
         DatabaseHandler.createTag(tag1, this);
 
-        Tag tag2 = new Tag("12","tag2", "cate2",2);
+        NfcTag tag2 = new NfcTag("dfb09c0c-a53c-4203-a02f-3183b85a3fba","tag2", "cate2");
         DatabaseHandler.createTag(tag2, this);
 
         CategoryHistory categoryHistory1 = new CategoryHistory("h1");
