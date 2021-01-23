@@ -7,11 +7,6 @@ public class TagInterface extends AppCompatActivity {
     /**
     private TagManager tagManager;
 
-    @Override
-    public void onNewIntent(Intent intent){
-
-
-    }
 
     public void onScan() {
 
