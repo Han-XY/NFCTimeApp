@@ -8,6 +8,7 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.util.Log;
 
+import com.txbb.nfctimeapp.FrontBackInterface;
 import com.txbb.nfctimeapp.TagProperties;
 
 import java.time.Instant;
@@ -17,6 +18,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class TagManager {
+
+    private FrontBackInterface frontBackInterface;
 
     public void onRead(boolean isEmpty, String id) {
 
@@ -40,6 +43,9 @@ public class TagManager {
     // get a map of from all the ids to properties from backend database
     // call sync() after the data is available
     public void syncRequest() {
+        //get data first
+
+        frontBackInterface.sync(null);
 
     }
 
