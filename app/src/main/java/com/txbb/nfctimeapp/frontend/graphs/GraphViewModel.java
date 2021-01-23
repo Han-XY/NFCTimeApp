@@ -1,4 +1,4 @@
-package com.txbb.nfctimeapp.ui.graphs;
+package com.txbb.nfctimeapp.frontend.graphs;
 
 import androidx.lifecycle.ViewModel;
 

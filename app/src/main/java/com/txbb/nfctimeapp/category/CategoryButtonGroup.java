@@ -42,4 +42,11 @@ public class CategoryButtonGroup {
         }
     }
 
+    public boolean isSelected() {
+        return this.selected != null;
+    }
+
+    public int getSelectedCategory() {
+        return this.selected.getCategory().getCategoryId();
+    }
 }
