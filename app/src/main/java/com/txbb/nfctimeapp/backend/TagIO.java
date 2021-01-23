@@ -35,11 +35,12 @@ public class TagIO extends AppCompatActivity {
         State state = frontBackInterface.getCurrentState();
 
         switch (state) {
-            // In either state of STANDARD or REGISTRATION, Read Tag information
+            // In STANDARD state, empty tags are ignored.
             case STANDARD:
                 this.onStandardRead();
                 break;
 
+            // In REGISTRATION state, both states will be passed to manager.
             case REGISTRATION:
                 this.onRegistrationRead();
                 break;
