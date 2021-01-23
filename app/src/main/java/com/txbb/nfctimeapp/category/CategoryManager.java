@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import com.google.gson.Gson;
 import com.txbb.nfctimeapp.R;
 
 
@@ -41,7 +43,15 @@ public class CategoryManager {
             return false;
         }
 
-        this.categoryList.add(new Category(name, icon));
+        Category new_category = new Category(name, icon);
+
+        this.categoryList.add(new_category);
+
+        // write into json db
+        /*
+            TODO: integrate cloud firebase
+         */
+
 
         return true;
     }
