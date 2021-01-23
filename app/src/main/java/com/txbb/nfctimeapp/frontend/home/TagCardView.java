@@ -2,6 +2,7 @@ package com.txbb.nfctimeapp.frontend.home;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.ImageDecoder;
 import android.graphics.Typeface;
 import android.media.Image;
 import android.util.DisplayMetrics;
@@ -15,9 +16,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.txbb.nfctimeapp.R;
+import com.txbb.nfctimeapp.backend.CustomActivity;
 import com.txbb.nfctimeapp.category.Category;
+import com.txbb.nfctimeapp.frontend.MainActivity;
 import com.txbb.nfctimeapp.util.Units;
 
 import org.w3c.dom.Text;
@@ -30,13 +36,15 @@ public class TagCardView extends CardView implements View.OnClickListener {
     private Category category;
 
     private TextView durationTextView;
+    private Fragment fragment;
 
-    public TagCardView(@NonNull Context context, String tagId, String text, String title, Category category) {
+    public TagCardView(@NonNull Context context, Fragment fragment, String tagId, String text, String title, Category category) {
         super(context);
         this.tagId = tagId;
         this.title = title;
         this.text = text;
         this.category = category;
+        this.fragment = fragment;
 
         this.init();
         this.addOtherComponents();
@@ -130,6 +138,14 @@ public class TagCardView extends CardView implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        System.out.println("Clicked!");
+        NavHostFragment navHostFragment =
+                (NavHostFragment) this.fragment.getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        navController.navigate(R.id.action_nav_home_to_editorFragment);
+
+        CustomActivity activity = (CustomActivity) this.fragment.getActivity();
+        activity.setSelectedTagId(this.tagId);
+        activity.setSelectedTagTitle(this.title);
+        activity.setSelectedTagCategory(this.category);
     }
 }

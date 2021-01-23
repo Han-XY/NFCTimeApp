@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment implements Actor {
             }
         }
 
-        TagCardView tagCardView = new TagCardView(getContext(), tagId, text, tagName, category);
+        TagCardView tagCardView = new TagCardView(getContext(), this, tagId, text, tagName, category);
         this.tagCardViews.add(tagCardView);
 
         LinearLayout linearLayout = getActivity().findViewById(R.id.lin_layout);

@@ -44,6 +44,13 @@
             app:exitAnim="@anim/slide_out"
             app:popEnterAnim="@anim/slide_in"
             app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_nav_home_to_editorFragment"
+            app:destination="@id/editorFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/nav_settings"
@@ -55,5 +62,10 @@
         android:name="com.txbb.nfctimeapp.frontend.graphs.GraphFragment"
         android:label="Graphs"
         tools:layout="@layout/fragment_graph" />
+    <fragment
+        android:id="@+id/editorFragment"
+        android:name="com.txbb.nfctimeapp.frontend.editor.EditorFragment"
+        android:label="fragment_editor"
+        tools:layout="@layout/fragment_editor" />
 
 </navigation>

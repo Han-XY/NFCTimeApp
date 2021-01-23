@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frontend.registration.DesignerFragment">
+    tools:context=".frontend.editor.EditorFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/add_tag_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".frontend.AddTagActivity">
@@ -20,7 +19,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/editorEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -37,7 +36,7 @@
                     android:orientation="vertical">
 
                     <TableLayout
-                        android:id="@+id/designerTableLayout"
+                        android:id="@+id/editorTableLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -68,19 +67,28 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/designer_fab"
+            android:id="@+id/deleteFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/ic_delete" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/editFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             app:srcCompat="@drawable/ic_right_arrow" />
 
-
         <include
             android:id="@+id/include"
             layout="@layout/content_add_tag"
-            android:padding="20dp" />
+            android:padding="20dp"
+            app:layout_anchor="@+id/linear_layout_add_tag"
+            app:layout_anchorGravity="center" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </FrameLayout>

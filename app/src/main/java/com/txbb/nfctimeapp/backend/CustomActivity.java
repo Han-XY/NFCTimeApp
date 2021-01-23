@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import com.txbb.nfctimeapp.FrontBackInterface;
 import com.txbb.nfctimeapp.R;
+import com.txbb.nfctimeapp.category.Category;
 import com.txbb.nfctimeapp.category.CategoryManager;
 import com.txbb.nfctimeapp.frontend.home.HomeFragment;
 import com.txbb.nfctimeapp.frontend.registration.DesignerFragment;
@@ -23,6 +24,11 @@ public class CustomActivity extends AppCompatActivity {
     // registration variables
     protected String chosenName;
     protected int chosenCategory;
+
+    // other variables
+    protected String selectedTagId;
+    protected String selectedTagTitle;
+    protected Category selectedTagCategory;
 
     protected CategoryManager categoryManager;
 
@@ -72,5 +78,29 @@ public class CustomActivity extends AppCompatActivity {
 
     public FrontBackInterface getFrontBackInterface() {
         return this.frontBackInterface;
+    }
+
+    public String getSelectedTagId() {
+        return this.selectedTagId;
+    }
+
+    public void setSelectedTagId(String selectedTagId) {
+        this.selectedTagId = selectedTagId;
+    }
+
+    public String getSelectedTagTitle() {
+        return this.selectedTagTitle;
+    }
+
+    public void setSelectedTagTitle(String selectedTagTitle) {
+        this.selectedTagTitle = selectedTagId;
+    }
+
+    public Category getSelectedTagCategory() {
+        return this.selectedTagCategory;
+    }
+
+    public void setSelectedTagCategory(Category selectedTagCategory) {
+        this.selectedTagCategory = selectedTagCategory;
     }
 }
