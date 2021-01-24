@@ -10,13 +10,29 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class DatabaseHandler {
 
     private static Gson gson = new Gson();
 
-    // Check if the file exists under the context directory
+    // <key:category, name, sessions>
+    private HashMap<String, ArrayList<Session>> cateToSessions;
+
+    // <key: tag_id, ArrayList<Session>>
+    private HashMap<String, ArrayList<Session>> idToSessions;
+
+    // <key: tag_id, NfcTag>>
+    private HashMap<String, NfcTag> idToTag;
+
+    /**
+     * Check if file exist
+     *
+     * @param fileName
+     * @param context
+     * @return
+     */
     private static boolean checkFileExists(String fileName, Context context){
         File file = new File(context.getFilesDir(),fileName);
         return file.exists();
