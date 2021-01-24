@@ -8,12 +8,9 @@ public class TagProperties {
     private long startTime;
     private long endTime;
 
-    public TagProperties(String id, String name, int category, long startTime, long endTime) {
-        this.id = id;
+    public TagProperties(String name, int category) {
         this.name = name;
         this.category = category;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
 
     public String getId() {
