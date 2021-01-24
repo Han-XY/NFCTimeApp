@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TagIO extends CustomActivity {
+public class TagIO extends AppCompatActivity {
 
     private TagManager tagManager;
     private FrontBackInterface frontBackInterface;
@@ -25,34 +25,36 @@ public class TagIO extends CustomActivity {
     public void onNewIntent(Intent intent){
         super.onNewIntent(intent);
 
-//        setIntent(intent);
-//
-//        // get state
-//        AppState state = frontBackInterface.getCurrentState();
-//
-//        switch (state) {
-//            // In STANDARD state, empty tags are ignored.
-//            case STANDARD:
-//                this.onStandardRead();
-//                break;
-//
-//            // In REGISTRATION state, both empty and non-empty reads will be passed to manager.
-//            case REGISTRATION:
-//                this.onRegistrationRead();
-//                break;
-//
-//            // In new_tag state, overwrite the tag regardless;
-//            case NEW_TAG:
-//                this.onWrite();
-//                break;
-//
-//            // in this case, we don't have to write a new id
-//            // we just need to read the old id and then pass the id back to front id
-//            case OLD_TAG:
-//                this.onOldTagRead();
-//                break;
-//
-//        }
+        Toast.makeText(this, "GET INTENT!!!!", Toast.LENGTH_LONG).show();
+
+        setIntent(intent);
+
+        // get state
+        AppState state = frontBackInterface.getCurrentState();
+
+        switch (state) {
+            // In STANDARD state, empty tags are ignored.
+            case STANDARD:
+                this.onStandardRead();
+                break;
+
+            // In REGISTRATION state, both empty and non-empty reads will be passed to manager.
+            case REGISTRATION:
+                this.onRegistrationRead();
+                break;
+
+            // In new_tag state, overwrite the tag regardless;
+            case NEW_TAG:
+                this.onWrite();
+                break;
+
+            // in this case, we don't have to write a new id
+            // we just need to read the old id and then pass the id back to front id
+            case OLD_TAG:
+                this.onOldTagRead();
+                break;
+
+        }
     }
 
     public void onStandardRead() {

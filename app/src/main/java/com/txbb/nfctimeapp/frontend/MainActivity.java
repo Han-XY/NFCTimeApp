@@ -85,29 +85,23 @@ public class MainActivity extends CustomActivity {
                 || super.onSupportNavigateUp();
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//        if (mNfcAdapter != null)
-//            mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, null,
-//                    null);
-//
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//
-//        if (mNfcAdapter != null)
-//            mNfcAdapter.disableForegroundDispatch(this);
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
 
-//    @Override
-//    public void onNewIntent(Intent intent){
-//        super.onNewIntent(intent);
-//        Toast.makeText(this, "ON NEW INTENT CALLED", Toast.LENGTH_LONG).show();
-//    }
+        if (mNfcAdapter != null)
+            mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, null,
+                    null);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (mNfcAdapter != null)
+            mNfcAdapter.disableForegroundDispatch(this);
+    }
 
 
 }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CustomActivity extends AppCompatActivity implements Actor {
+public class CustomActivity extends TagIO implements Actor {
 
     // interfacing
     protected FrontBackInterface frontBackInterface;

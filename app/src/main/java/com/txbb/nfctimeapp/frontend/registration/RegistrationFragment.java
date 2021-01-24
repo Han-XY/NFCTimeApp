@@ -69,7 +69,7 @@ public class RegistrationFragment extends Fragment implements Actor {
         NavHostFragment navHostFragment =
                 (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
-        //navController.navigate(R.id.action_registrationFragment_to_nav_home);
+        navController.navigate(R.id.action_registrationFragment_to_nav_home);
     }
 
     @Override
