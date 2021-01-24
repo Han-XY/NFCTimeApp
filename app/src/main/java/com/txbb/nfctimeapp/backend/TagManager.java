@@ -127,6 +127,7 @@ public class TagManager {
 
         else {
             // new id, we need to call creatTag in db and do the relevant initialisation
+            tagProperties.setId(id);
             db.createTag(tagProperties,currentActivity);
         }
 
