@@ -59,7 +59,12 @@ public class TagManager {
             // - get the stop timestamp, pass it to front end by calling onTagStop
             long startTime = tp.getStartTime();
             long stopTime = getCurrentTime();
-            frontBackInterface.onTagStop(id,stopTime);
+            long thisDuration = stopTime - startTime;
+            // assume the new time is in the same day
+            // TODO by ctx: need to take care of transition of days
+            tp.setDurationToday(tp.getDurationToday() + thisDuration);
+
+            frontBackInterface.onTagStop(id,startTime,stopTime,tp.getDurationToday());
 
             // - clear both start and end time, reflect the update in database
             tp.setStartTime(0);
@@ -74,7 +79,7 @@ public class TagManager {
         else {
             // - get the start timestamp, pass it to front end by calling onTagStart
             long startTime = getCurrentTime();
-            frontBackInterface.onTagStart(id,startTime);
+            frontBackInterface.onTagStart(id,startTime,tp.getDurationToday());
 
             // - add the time to our tag properties
             tp.setStartTime(startTime);

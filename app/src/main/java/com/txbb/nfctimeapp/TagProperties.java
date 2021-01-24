@@ -7,6 +7,7 @@ public class TagProperties {
     private int category;
     private long startTime;
     private long endTime;
+    private long durationToday;
 
     public TagProperties(String name, int category) {
         this.name = name;
@@ -51,5 +52,13 @@ public class TagProperties {
 
     public void setEndTime(long endTime) {
         this.endTime = endTime;
+    }
+
+    public long getDurationToday() {
+        return durationToday;
+    }
+
+    public void setDurationToday(long duration) {
+        this.durationToday = duration;
     }
 }
