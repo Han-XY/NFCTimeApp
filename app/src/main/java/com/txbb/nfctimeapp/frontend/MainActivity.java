@@ -103,11 +103,11 @@ public class MainActivity extends CustomActivity {
             mNfcAdapter.disableForegroundDispatch(this);
     }
 
-    @Override
-    public void onNewIntent(Intent intent){
-        super.onNewIntent(intent);
-        Toast.makeText(this, "ON NEW INTENT CALLED", Toast.LENGTH_LONG).show();
-    }
+//    @Override
+//    public void onNewIntent(Intent intent){
+//        super.onNewIntent(intent);
+//        Toast.makeText(this, "ON NEW INTENT CALLED", Toast.LENGTH_LONG).show();
+//    }
 
 
 }
