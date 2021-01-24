@@ -65,4 +65,14 @@ public class SettingsFragment extends Fragment implements Actor {
     public void sync(Map<String, TagProperties> tags) {
 
     }
+
+    @Override
+    public void onTagStart(String id, long startTime, long durationToday) {
+
+    }
+
+    @Override
+    public void onTagStop(String id, long startTime, long durationToday) {
+
+    }
 }

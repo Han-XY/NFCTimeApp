@@ -153,4 +153,14 @@ public class EditorFragment extends GeneralEditorFragment implements Actor {
 
     }
 
+    @Override
+    public void onTagStart(String id, long startTime, long durationToday) {
+
+    }
+
+    @Override
+    public void onTagStop(String id, long startTime, long durationToday) {
+
+    }
+
 }

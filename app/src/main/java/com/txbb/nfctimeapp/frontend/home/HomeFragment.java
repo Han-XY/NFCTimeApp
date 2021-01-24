@@ -202,4 +202,14 @@ public class HomeFragment extends Fragment implements Actor {
             this.addNewCard(tagId, tagName, category, duration);
         }
     }
+
+    @Override
+    public void onTagStart(String id, long startTime, long durationToday) {
+        Log.i("TXXB1000", "HomeFragment::onTagStart");
+    }
+
+    @Override
+    public void onTagStop(String id, long startTime, long durationToday) {
+        Log.i("TXXB1000", "HomeFragment::onTagStop");
+    }
 }
