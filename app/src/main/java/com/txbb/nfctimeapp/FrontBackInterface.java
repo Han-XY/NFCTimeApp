@@ -1,5 +1,7 @@
 package com.txbb.nfctimeapp;
 
+import android.widget.Toast;
+
 import com.txbb.nfctimeapp.backend.Actor;
 import com.txbb.nfctimeapp.backend.CustomActivity;
 import com.txbb.nfctimeapp.backend.TagManager;
@@ -55,6 +57,7 @@ public class FrontBackInterface {
     public void deletedTagNotification() {
         // need to give user notification that this is a deleted tag
         // state remains at standatd
+        this.debug("DELETED TAG NOTIF");
     }
 
     // in registration state: user reads an empty tag, start empty tag registration
@@ -105,4 +108,7 @@ public class FrontBackInterface {
         this.currentActivity.sync(tags);
     }
 
+    public void debug(String str) {
+        Toast.makeText(this.currentActivity, str, Toast.LENGTH_LONG).show();
+    }
 }
