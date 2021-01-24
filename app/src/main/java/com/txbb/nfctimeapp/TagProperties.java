@@ -67,7 +67,7 @@ public class TagProperties {
     }
 
     public void setDeleted(boolean isDeleted) {
-        this.isDeleted = new Boolean(isDeleted);
+        this.isDeleted = isDeleted;
     }
 
     public boolean isDeleted() {

@@ -35,6 +35,8 @@ public class CustomActivity extends TagIO implements Actor {
 
     protected CategoryManager categoryManager;
 
+    protected boolean fetchThreadRunning;
+
     protected List<Actor> getFragments() {
         List<Actor> actors = new ArrayList<>();
 
@@ -158,5 +160,13 @@ public class CustomActivity extends TagIO implements Actor {
 
     public AppState getAppState() {
         return this.appState;
+    }
+
+    public boolean isFetchThreadRunning() {
+        return this.fetchThreadRunning;
+    }
+
+    public void setFetchThreadRunning(boolean fetchThreadRunning) {
+        this.fetchThreadRunning = fetchThreadRunning;
     }
 }
