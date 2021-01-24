@@ -17,4 +17,8 @@ public interface Actor {
 
     void sync(Map<String, TagProperties> tags);
 
+    void onTagStart(String id, long startTime, long durationToday);
+
+    void onTagStop(String id, long startTime, long durationToday);
+
 }

@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -275,12 +276,29 @@ public class DatabaseHandler {
 
         String allKeys = "";
         for (String s : idToTag.keySet()) {
-            allKeys += s;
+            allKeys += " " + s;
         }
-
         Log.i("TXBB1000", "All keys inside the JSON " + allKeys);
 
         return this.idToTag.containsKey(id);
+    }
+
+    public HashMap<String, TagProperties> getAll(Context context) {
+        readTagsJson(context);
+        HashMap<String, TagProperties> result = new HashMap<>();
+        for (String id: idToTag.keySet()) {
+            result.put(id,new TagProperties(idToTag.get(id)));
+        }
+        return result;
+    }
+
+    public void debug() {
+        String allKeys = "";
+        for (String s : idToTag.keySet()) {
+            allKeys += " " + s;
+        }
+
+        Log.i("TXBB1000", "DatabaseHandler::debug All keys inside the JSON " + allKeys);
     }
 
     /**
@@ -293,8 +311,8 @@ public class DatabaseHandler {
 
         // For resting only: manually reset file
         // TODO: comment out this line if not testing!!
-        initTags(context);
-        initTagSessions(context);
+//        initTags(context);
+//        initTagSessions(context);
 
         // write to tags.json
         readTagsJson(context);
@@ -321,6 +339,8 @@ public class DatabaseHandler {
      * @param context - activity
      */
     public void deleteTag(String id, Context context){
+        Log.i("TXBB1000", "DatabaseHandler::deleteTag " + id);
+
         // generate a new id for tag
         String new_id = UUID.randomUUID().toString();
 
@@ -332,6 +352,13 @@ public class DatabaseHandler {
             // update idToTag
             TagProperties tag = this.idToTag.get(id);
             tag.setId(new_id); // reset tag_id inside TagProperties
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            long currentTime = timestamp.getTime() / 1000;
+            tag.setEndTime(currentTime);
+
+            tag.setDeleted(true);
+
             this.idToTag.remove(id);  // remove old id
             this.idToTag.put(new_id, tag);  // put new id
             writeTagsJson(context);  // update tags.json
@@ -354,9 +381,15 @@ public class DatabaseHandler {
      * @param tag - tag_id
      */
     public void updateTagProperties(TagProperties tag, Context context){
+        Log.i("TXBB1000", "DatabaseHandler::updateTagProperties: " + tag.getId());
+
         if (containsId(tag.getId(), context)){
             readTagsJson(context);
-            this.idToTag.put(tag.getId(), tag);
+            TagProperties oldProperties = this.idToTag.get(tag.getId());
+            oldProperties.updateProperties(tag);
+            this.idToTag.put(tag.getId(), oldProperties);
+            Log.i("TXBB1000", "DatabaseHandler::updateTagProperties2 " + oldProperties.getCategory());
+
             writeTagsJson(context);
         }
         else{

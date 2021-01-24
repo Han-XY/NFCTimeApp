@@ -62,9 +62,6 @@ public class EditorFragment extends GeneralEditorFragment implements Actor {
 
         this.buttonGroup.select(oldTagCategory.getCategoryId());
 
-
-
-
         CategoryButtonGroup buttonGroup = this.buttonGroup;
 
         FloatingActionButton fabEdit = getActivity().findViewById(R.id.editFab);
@@ -96,25 +93,38 @@ public class EditorFragment extends GeneralEditorFragment implements Actor {
     }
 
     private void startDelete() {
-        Log.i("NFC", "Starting delete");
         CustomActivity activity = (CustomActivity) getActivity();
         FrontBackInterface frontBackInterface = activity.getFrontBackInterface();
 
         String tagId = activity.getSelectedTagId();
+
+        Log.i("TXBB1000", "EditorFragment::startDelete " + tagId);
 
         frontBackInterface.deleteTag(tagId);
 
         // assume success
+
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        navController.navigate(R.id.action_editorFragment_to_nav_home);
     }
 
     private void startEdit(String name, int category) {
-        Log.i("NFC", "Starting edit");
         CustomActivity activity = (CustomActivity) getActivity();
         FrontBackInterface frontBackInterface = activity.getFrontBackInterface();
 
         String tagId = activity.getSelectedTagId();
 
+        Log.i("TXBB1000", "EditorFragment::startEdit " + tagId);
+
+
         frontBackInterface.updateTagProperties(tagId, new TagProperties(name, category));
+
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        navController.navigate(R.id.action_editorFragment_to_nav_home);
     }
 
 
@@ -140,6 +150,16 @@ public class EditorFragment extends GeneralEditorFragment implements Actor {
 
     @Override
     public void sync(Map<String, TagProperties> tags) {
+
+    }
+
+    @Override
+    public void onTagStart(String id, long startTime, long durationToday) {
+
+    }
+
+    @Override
+    public void onTagStop(String id, long startTime, long durationToday) {
 
     }
 

@@ -37,12 +37,12 @@ public class TagManager {
      * @param id the id of the tag.
      */
     public void onStandardRead(String id) {
-        Log.i("TXBB1000", "onStandardRead");
+        Log.i("TXBB1000", "TagManager::onStandardRead");
 
         // check if this id is valid/existing
         // if id is not found:
         // notification: this event has been deleted; you need to set a new event for this tag
-        if (db.containsId(id,currentActivity)) {
+        if (!db.containsId(id,currentActivity)) {
             frontBackInterface.deletedTagNotification();
             return;
         }
@@ -59,7 +59,12 @@ public class TagManager {
             // - get the stop timestamp, pass it to front end by calling onTagStop
             long startTime = tp.getStartTime();
             long stopTime = getCurrentTime();
-            frontBackInterface.onTagStop(id,stopTime);
+            long thisDuration = stopTime - startTime;
+            // assume the new time is in the same day
+            // TODO by ctx: need to take care of transition of days
+            tp.setDurationToday(tp.getDurationToday() + thisDuration);
+
+            frontBackInterface.onTagStop(id,startTime,stopTime,tp.getDurationToday());
 
             // - clear both start and end time, reflect the update in database
             tp.setStartTime(0);
@@ -74,7 +79,7 @@ public class TagManager {
         else {
             // - get the start timestamp, pass it to front end by calling onTagStart
             long startTime = getCurrentTime();
-            frontBackInterface.onTagStart(id,startTime);
+            frontBackInterface.onTagStart(id,startTime,tp.getDurationToday());
 
             // - add the time to our tag properties
             tp.setStartTime(startTime);
@@ -91,7 +96,7 @@ public class TagManager {
      * @param id the id.
      */
     public void onRegistrationRead(boolean isEmpty, String id) {
-        Log.i("TXBB1000", "onRegistrationRead with id: " + id);
+        Log.i("TXBB1000", "TagManager::onRegistrationRead with id: " + id);
 
 
 //        if (isEmpty) {
@@ -106,10 +111,10 @@ public class TagManager {
 
         if (!db.containsId(id, currentActivity)) {
             frontBackInterface.oldTagRegistration();
-            Log.i("TXBB1000", "onRegistrationRead: id not found in DB");
+            Log.i("TXBB1000", "TagManager::onRegistrationRead: id not found in DB");
         } else {
             frontBackInterface.onKnownTagRegistration();
-            Log.i("TXBB1000", "onRegistrationRead: id found in DB");
+            Log.i("TXBB1000", "TagManager::onRegistrationRead: id found in DB");
         }
 
     }
@@ -117,17 +122,22 @@ public class TagManager {
     // set tagProperties for a tag id
     // used both for tag creation and tag update
     public void updateTag(String id, TagProperties tagProperties) {
+        Log.i("TXBB1000", "TagManager::updateTag");
+        Log.i("TXBB1000", tagProperties.toString());
 
         // we need to check if it's a new id or old id
         if (db.containsId(id,currentActivity)) {
             // old id
             // we update directly
+            tagProperties.setId(id);
             db.updateTagProperties(tagProperties,frontBackInterface.getCurrentActivity());
         }
 
         else {
             // new id, we need to call creatTag in db and do the relevant initialisation
+            tagProperties.setId(id);
             db.createTag(tagProperties,currentActivity);
+            db.debug();
         }
 
 
@@ -142,15 +152,24 @@ public class TagManager {
     // call sync() after the data is available
     public void syncRequest() {
 
-        //get data first
-        Map<String, TagProperties> fakeData = new HashMap<>();
+        HashMap<String, TagProperties> mapping = db.getAll(this.currentActivity);
 
-        fakeData.put("239hsgras3", new TagProperties("Read about life", 1));
-        fakeData.put("23rrsd", new TagProperties("Do calculus", 5));
-        fakeData.put("sdvsdv3", new TagProperties("Play games", 9));
-        fakeData.put("343ty ", new TagProperties("Exercise", 2));
+        HashMap<String, TagProperties> mapping_filtered = new HashMap<>();
 
-        frontBackInterface.sync(fakeData);
+        for (String key : mapping.keySet()) {
+            if (!mapping.get(key).isDeleted()) {
+                mapping_filtered.put(key, mapping.get(key));
+            }
+        }
+
+        String allKeys = "";
+        for (String s : mapping.keySet()) {
+            allKeys += s + " " + mapping.get(s).getEndTime() + " ";
+        }
+        Log.i("TXBB1000", "TagManager::syncRequest " + allKeys);
+
+
+        frontBackInterface.sync(mapping_filtered);
 
     }
 

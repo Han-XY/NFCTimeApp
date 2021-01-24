@@ -63,6 +63,8 @@ public class TagIO extends AppCompatActivity {
      *  Called when we read a tag during STANDARD.
      */
     public void onStandardRead() {
+        Log.i("TXBB1000", "TagIO::onStandardRead");
+
         if (!this.isTagEmpty()) {
             frontBackInterface.getTagManager().onStandardRead(this.readTag());
         }
@@ -72,6 +74,8 @@ public class TagIO extends AppCompatActivity {
      *  Called when we read a tag during REGISTRATION.
      */
     public void onRegistrationRead() {
+        Log.i("TXBB1000", "TagIO::onRegistrationRead");
+
         if (this.isTagEmpty()) {
             frontBackInterface.getTagManager().onRegistrationRead(true, null);
         } else {
@@ -84,6 +88,8 @@ public class TagIO extends AppCompatActivity {
      *  Called when we read a tag during OLD_TAG.
      */
     public void onOldTagRead() {
+        Log.i("TXBB1000", "TagIO::onOldTagRead");
+
         String id = this.readTag();
 
         frontBackInterface.onTagRegister(this.readTag());

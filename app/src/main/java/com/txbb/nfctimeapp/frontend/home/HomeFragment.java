@@ -76,30 +76,33 @@ public class HomeFragment extends Fragment implements Actor {
             }
         });
 
-        new Thread() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
+        if (!((CustomActivity) getActivity()).isFetchThreadRunning()) {
+            ((CustomActivity) getActivity()).setFetchThreadRunning(true);
+            new Thread() {
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            Thread.sleep(1000);
 
-                        if (getActivity() == null) {
-                            continue;
+                            if (getActivity() == null) {
+                                continue;
+                            }
+
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.i("Sync loop", "Syncing");
+                                    frontBackInterface.syncRequest();
+                                }
+                            });
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.i("Sync loop", "Syncing");
-                                frontBackInterface.syncRequest();                            }
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
                 }
-            }
-        }.start();
-
+            }.start();
+        }
     }
 
 
@@ -201,5 +204,15 @@ public class HomeFragment extends Fragment implements Actor {
 
             this.addNewCard(tagId, tagName, category, duration);
         }
+    }
+
+    @Override
+    public void onTagStart(String id, long startTime, long durationToday) {
+        Log.i("TXXB1000", "HomeFragment::onTagStart");
+    }
+
+    @Override
+    public void onTagStop(String id, long startTime, long durationToday) {
+        Log.i("TXXB1000", "HomeFragment::onTagStop");
     }
 }
