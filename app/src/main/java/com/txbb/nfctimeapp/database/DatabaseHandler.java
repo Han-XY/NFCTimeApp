@@ -353,6 +353,8 @@ public class DatabaseHandler {
             long currentTime = timestamp.getTime() / 1000;
             tag.setEndTime(currentTime);
 
+            tag.setDeleted(true);
+
             this.idToTag.remove(id);  // remove old id
             this.idToTag.put(new_id, tag);  // put new id
             writeTagsJson(context);  // update tags.json
@@ -375,9 +377,15 @@ public class DatabaseHandler {
      * @param tag - tag_id
      */
     public void updateTagProperties(TagProperties tag, Context context){
+        Log.i("TXBB1000", "DatabaseHandler::updateTagProperties: " + tag.getId());
+
         if (containsId(tag.getId(), context)){
             readTagsJson(context);
-            this.idToTag.put(tag.getId(), tag);
+            TagProperties oldProperties = this.idToTag.get(tag.getId());
+            oldProperties.updateProperties(tag);
+            this.idToTag.put(tag.getId(), oldProperties);
+            Log.i("TXBB1000", "DatabaseHandler::updateTagProperties2 " + oldProperties.getCategory());
+
             writeTagsJson(context);
         }
         else{

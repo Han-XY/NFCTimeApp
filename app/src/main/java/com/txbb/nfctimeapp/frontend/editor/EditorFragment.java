@@ -62,9 +62,6 @@ public class EditorFragment extends GeneralEditorFragment implements Actor {
 
         this.buttonGroup.select(oldTagCategory.getCategoryId());
 
-
-
-
         CategoryButtonGroup buttonGroup = this.buttonGroup;
 
         FloatingActionButton fabEdit = getActivity().findViewById(R.id.editFab);
@@ -106,16 +103,28 @@ public class EditorFragment extends GeneralEditorFragment implements Actor {
         frontBackInterface.deleteTag(tagId);
 
         // assume success
+
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        navController.navigate(R.id.action_editorFragment_to_nav_home);
     }
 
     private void startEdit(String name, int category) {
-        Log.i("NFC", "Starting edit");
         CustomActivity activity = (CustomActivity) getActivity();
         FrontBackInterface frontBackInterface = activity.getFrontBackInterface();
 
         String tagId = activity.getSelectedTagId();
 
+        Log.i("TXBB1000", "EditorFragment::startEdit " + tagId);
+
+
         frontBackInterface.updateTagProperties(tagId, new TagProperties(name, category));
+
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        navController.navigate(R.id.action_editorFragment_to_nav_home);
     }
 
 

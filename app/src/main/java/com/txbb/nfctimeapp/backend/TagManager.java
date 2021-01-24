@@ -118,11 +118,13 @@ public class TagManager {
     // used both for tag creation and tag update
     public void updateTag(String id, TagProperties tagProperties) {
         Log.i("TXBB1000", "TagManager::updateTag");
+        Log.i("TXBB1000", tagProperties.toString());
 
         // we need to check if it's a new id or old id
         if (db.containsId(id,currentActivity)) {
             // old id
             // we update directly
+            tagProperties.setId(id);
             db.updateTagProperties(tagProperties,frontBackInterface.getCurrentActivity());
         }
 
@@ -130,7 +132,6 @@ public class TagManager {
             // new id, we need to call creatTag in db and do the relevant initialisation
             tagProperties.setId(id);
             db.createTag(tagProperties,currentActivity);
-            Log.i("TXBB1000", "TagManager::updateTag::else");
             db.debug();
         }
 
@@ -151,25 +152,16 @@ public class TagManager {
         HashMap<String, TagProperties> mapping_filtered = new HashMap<>();
 
         for (String key : mapping.keySet()) {
-            if (mapping.get(key).getEndTime() == 0) {
+            if (!mapping.get(key).isDeleted()) {
                 mapping_filtered.put(key, mapping.get(key));
             }
         }
-
-
-//        //get data first
-//        Map<String, TagProperties> fakeData = new HashMap<>();
-//
-//        fakeData.put("239hsgras3", new TagProperties("Read about life", 1));
-//        fakeData.put("23rrsd", new TagProperties("Do calculus", 5));
-//        fakeData.put("sdvsdv3", new TagProperties("Play games", 9));
-//        fakeData.put("343ty ", new TagProperties("Exercise", 2));
 
         String allKeys = "";
         for (String s : mapping.keySet()) {
             allKeys += s + " " + mapping.get(s).getEndTime() + " ";
         }
-        Log.i("TXBB1000", "TagManager::syncRequest " + allKeys);
+        //Log.i("TXBB1000", "TagManager::syncRequest " + allKeys);
 
 
         frontBackInterface.sync(mapping_filtered);
