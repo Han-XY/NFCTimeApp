@@ -19,10 +19,14 @@ public class FrontBackInterface {
         this.tagManager = new TagManager(this);
     }
 
+    public CustomActivity getCurrentActivity() {
+        return currentActivity;
+    }
+
     /* Front to back */
 
     public void updateTagProperties(String id, TagProperties tagProperties) {
-        this.tagManager.registerTag(id, tagProperties);
+        this.tagManager.updateTag(id, tagProperties);
     }
 
     public void deleteTag(String id) {

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.txbb.nfctimeapp.FrontBackInterface;
 import com.txbb.nfctimeapp.TagProperties;
+import com.txbb.nfctimeapp.database.DatabaseHandler;
 
 import java.time.Instant;
 
@@ -21,30 +22,60 @@ import java.util.UUID;
 public class TagManager {
 
     private FrontBackInterface frontBackInterface;
+    private CustomActivity currentActivity;
+    private DatabaseHandler db;
 
     public TagManager(FrontBackInterface frontBackInterface) {
         this.frontBackInterface = frontBackInterface;
+        this.currentActivity = frontBackInterface.getCurrentActivity();
+        this.db = DatabaseHandler.getDb();
     }
 
     // TagManager receives data from TagIO in standard state
     public void onStandardRead(String id) {
 
-        // TODO: what will happen if an ID is not found in our database
+        // check if this id is valid/existing
         // if id is not found:
         // notification: this event has been deleted; you need to set a new event for this tag
-        frontBackInterface.deletedTagNotification();
+        if (db.containsId(id,currentActivity)) {
+            frontBackInterface.deletedTagNotification();
+            return;
+        }
 
-        // TODO: if id is found, start or stop an event accordingly
+        // now that the id is valid, we start or stop an event accordingly
+
+        TagProperties tp = db.getProperties(id,currentActivity);
+
         // we check if the event is ongoing by looking at if the starting time has been set
-        // if there's starting time
-        // we need to stop the event:
-        // - get the stop timestamp, pass it to front end by calling onTagStop
-        // - add a session to backend database
-        // - clear both start and end time
+        if (tp.getStartTime() != 0) {
+            // if there's starting time
+            // we need to stop the event:
+
+            // - get the stop timestamp, pass it to front end by calling onTagStop
+            long startTime = tp.getStartTime();
+            long stopTime = getCurrentTime();
+            frontBackInterface.onTagStop(id,stopTime);
+
+            // - clear both start and end time, reflect the update in database
+            tp.setStartTime(0);
+            tp.setEndTime(0);
+            db.updateTagProperties(tp,currentActivity);
+
+            // - add a session to backend database
+            db.addSession(id,startTime,stopTime,currentActivity);
+        }
 
         // else, we need to start the event:
-        // - get the start timestamp, pass it to front end by calling onTagStart
-        // - add the time to our tag properties
+        else {
+            // - get the start timestamp, pass it to front end by calling onTagStart
+            long startTime = getCurrentTime();
+            frontBackInterface.onTagStart(id,startTime);
+
+            // - add the time to our tag properties
+            tp.setStartTime(startTime);
+            db.updateTagProperties(tp,currentActivity);
+        }
+
     }
 
     // receives data in registration state
@@ -56,28 +87,40 @@ public class TagManager {
         }
         else {
             // we are trying to register with a used tag
+            // check if this tag has been deleted from database
 
-            // TODO: first check if this tag has been deleted from database
             // if yes, we can simply use the existing id directly
             // we don't need to generate a new ID in onwrite again
             // start existing tag registration process
-            frontBackInterface.oldTagRegistration();
+            if (!db.containsId(id,currentActivity)) frontBackInterface.oldTagRegistration();
 
             // if this tag actually exists, we throw a warning
-            frontBackInterface.onKnownTagRegistration();
+            else frontBackInterface.onKnownTagRegistration();
         }
     }
 
     // set tagProperties for a tag id
     // used both for tag creation and tag update
-    public void registerTag(String id, TagProperties tagProperties) {
-        // TODO: need to add/update id<->properties pair in our database
+    public void updateTag(String id, TagProperties tagProperties) {
+
+        // we need to check if it's a new id or old id
+        if (db.containsId(id,currentActivity)) {
+            // old id
+            // we update directly
+            db.updateTagProperties(tagProperties,frontBackInterface.getCurrentActivity());
+        }
+
+        else {
+            // new id, we need to call creatTag in db and do the relevant initialisation
+            db.createTag(tagProperties,currentActivity);
+        }
+
+
     }
 
     // delete the id and its associated data from our database
     public void deleteTag(String id) {
-        // TODO
-
+        db.deleteTag(id,frontBackInterface.getCurrentActivity());
     }
 
     // get a map of from all the ids to properties from backend database
@@ -87,10 +130,10 @@ public class TagManager {
         //get data first
         Map<String, TagProperties> fakeData = new HashMap<>();
 
-        fakeData.put("239hsgras3", new TagProperties("Read about life", 1, 1611438728, 0));
-        fakeData.put("23rrsd", new TagProperties("Do calculus", 5, 1611438728, 0));
-        fakeData.put("sdvsdv3", new TagProperties("Play games", 9, 1611438728, 0));
-        fakeData.put("343ty ", new TagProperties("Exercise", 2, 1611438728, 0));
+        fakeData.put("239hsgras3", new TagProperties("Read about life", 1));
+        fakeData.put("23rrsd", new TagProperties("Do calculus", 5));
+        fakeData.put("sdvsdv3", new TagProperties("Play games", 9));
+        fakeData.put("343ty ", new TagProperties("Exercise", 2));
 
         frontBackInterface.sync(fakeData);
 
@@ -106,10 +149,4 @@ public class TagManager {
 
     }
 
-    public void setFrontBackInterface(FrontBackInterface frontBackInterface) {
-        this.frontBackInterface = frontBackInterface;
-    }
-
-    public void setFrontBackManager(FrontBackInterface frontBackInterface) {
-    }
 }

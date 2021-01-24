@@ -18,6 +18,7 @@ import com.txbb.nfctimeapp.TagProperties;
 import com.txbb.nfctimeapp.backend.Actor;
 import com.txbb.nfctimeapp.backend.CustomActivity;
 import com.txbb.nfctimeapp.backend.TagManager;
+import com.txbb.nfctimeapp.database.DatabaseHandler;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -40,35 +41,53 @@ public class MainActivity extends CustomActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        /* Initialisation of frontend/backend interface */
+//        super.onCreate(savedInstanceState);
+//        /* Initialisation of frontend/backend interface */
+//
+//        this.appState = AppState.STANDARD;
+//
+//        super.initCategoryManager();
+//        super.frontBackInterface = new FrontBackInterface(this);
+//
+//        /* Other initialisation */
+//
+//        setContentView(R.layout.activity_main);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        NavigationView navigationView = findViewById(R.id.nav_view);
+//        // Passing each menu ID as a set of Ids because each
+//        // menu should be considered as top level destinations.
+//        mAppBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.nav_home, R.id.nav_graphs, R.id.nav_settings)
+//                .setDrawerLayout(drawer)
+//                .build();
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+//        NavigationUI.setupWithNavController(navigationView, navController);
+//
+//        // Catch ForeGround Dispatch
+//        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+//        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+//                getClass()), 0);
+        DatabaseHandler db = DatabaseHandler.getDb();
+        TagProperties tag1 = new TagProperties("math", 1);
+        tag1.setId("1");
 
-        this.appState = AppState.STANDARD;
+        TagProperties tag2 = new TagProperties("english", 2);
+        tag2.setId("2");
 
-        super.initCategoryManager();
-        super.frontBackInterface = new FrontBackInterface(this);
+        db.createTag(tag1,this);
+        db.createTag(tag2, this);
 
-        /* Other initialisation */
+        db.deleteTag("1", this);
 
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_graphs, R.id.nav_settings)
-                .setDrawerLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        tag2.setCategory(3);
+        db.updateTagProperties(tag2, this);
 
-        // Catch ForeGround Dispatch
-        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-                getClass()), 0);
+        TagProperties tag3 = db.getProperties("2", this);
+        System.out.println(tag3.getCategory());
+
     }
 
     @Override
