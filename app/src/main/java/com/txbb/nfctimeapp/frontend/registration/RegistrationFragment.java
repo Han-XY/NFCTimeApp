@@ -55,7 +55,7 @@ public class RegistrationFragment extends Fragment implements Actor {
 
         /* Assume success */
 
-        this.displayMessage("Success!");
+        this.displayMessage("Success! " + tagId);
 
     }
 

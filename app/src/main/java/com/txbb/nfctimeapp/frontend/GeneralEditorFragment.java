@@ -70,6 +70,7 @@ public class GeneralEditorFragment extends Fragment {
         TableLayout tableLayout = getActivity().findViewById(tableLayoutId);
         tableLayout.addView(tableRow);
 
+
         return tableRow;
     }
 
