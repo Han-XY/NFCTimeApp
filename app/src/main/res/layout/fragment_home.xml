@@ -19,6 +19,7 @@
             android:layout_marginBottom="20dp">
 
             <SearchView
+                android:id="@+id/homeSearchView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

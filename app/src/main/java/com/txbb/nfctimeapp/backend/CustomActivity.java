@@ -93,7 +93,7 @@ public class CustomActivity extends AppCompatActivity {
     }
 
     public void setSelectedTagTitle(String selectedTagTitle) {
-        this.selectedTagTitle = selectedTagId;
+        this.selectedTagTitle = selectedTagTitle;
     }
 
     public Category getSelectedTagCategory() {

@@ -136,6 +136,10 @@ public class TagCardView extends CardView implements View.OnClickListener {
         return this.tagId;
     }
 
+    public String getTitle() {
+        return this.title;
+    }
+
     @Override
     public void onClick(View v) {
         NavHostFragment navHostFragment =

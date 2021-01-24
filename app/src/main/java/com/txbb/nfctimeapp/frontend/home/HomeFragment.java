@@ -3,12 +3,16 @@ package com.txbb.nfctimeapp.frontend.home;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,8 +50,6 @@ public class HomeFragment extends Fragment implements Actor {
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        this.setUp();
-
         return root;
     }
 
@@ -57,6 +59,21 @@ public class HomeFragment extends Fragment implements Actor {
         /* Start a thread to update info periodically */
 
         this.tagCardViews = new ArrayList<>();
+
+        SearchView searchView = getActivity().findViewById(R.id.homeSearchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.i("NFC", "Text change detected.");
+                filterTags(newText);
+                return true;
+            }
+        });
 
         new Thread() {
             @Override
@@ -79,6 +96,40 @@ public class HomeFragment extends Fragment implements Actor {
 
     }
 
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        this.setUp();
+
+        FloatingActionButton fab = getActivity().findViewById(R.id.home_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment navHostFragment =
+                        (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.action_nav_home_to_designerFragment);
+
+            }
+        });
+    }
+
+    private void filterTags(String newText) {
+        LinearLayout linearLayout = getActivity().findViewById(R.id.lin_layout);
+
+        for (TagCardView tagCardView : this.tagCardViews) {
+            linearLayout.removeView(tagCardView);
+        }
+
+        for (TagCardView tagCardView : this.tagCardViews) {
+            if (tagCardView.getTitle().toLowerCase().contains(newText.toLowerCase())) {
+                linearLayout.addView(tagCardView);
+            }
+        }
+    }
+
     private void addNewCard(String tagId, String tagName, Category category, long duration) {
         String text = "Active for " + this.longToDuration(duration);
         String categoryName = category.getName();
@@ -98,22 +149,6 @@ public class HomeFragment extends Fragment implements Actor {
         linearLayout.addView(tagCardView);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        FloatingActionButton fab = getActivity().findViewById(R.id.home_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment navHostFragment =
-                        (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.action_nav_home_to_designerFragment);
-
-            }
-        });
-    }
 
     private String longToDuration(long l) {
         return (l / 60) + " minutes";
