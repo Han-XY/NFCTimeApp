@@ -11,17 +11,12 @@ import android.nfc.tech.NdefFormatable;
 import android.util.Log;
 
 import android.content.Intent;
-
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TagIO extends AppCompatActivity {
-
-    public TagIO(TagManager tagManager, FrontBackInterface frontBackInterface) {
-        this.tagManager = tagManager;
-        this.frontBackInterface = frontBackInterface;
-    }
+public class TagIO extends CustomActivity {
 
     private TagManager tagManager;
     private FrontBackInterface frontBackInterface;
@@ -200,4 +195,7 @@ public class TagIO extends AppCompatActivity {
         return false;
     }
 
+    public void debug(String str) {
+        Toast.makeText(this, str, Toast.LENGTH_LONG).show();
+    }
 }
