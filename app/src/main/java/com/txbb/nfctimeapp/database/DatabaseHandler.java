@@ -22,13 +22,15 @@ public class DatabaseHandler {
     // make sure only one instance of db is constructed
     private static DatabaseHandler db = new DatabaseHandler();
 
-    private DatabaseHandler() {}
+    private DatabaseHandler() {
+        gson = new Gson();
+    }
 
     public static DatabaseHandler getDb() {
         return db;
     }
 
-    private static Gson gson = new Gson();
+    private Gson gson;
 
     // <key:category name, sessions>
     private HashMap<Integer, ArrayList<Session>> cateToSessions;
@@ -46,7 +48,7 @@ public class DatabaseHandler {
      * @param context  - activity
      * @return bool
      */
-    private static boolean checkFileExists(String fileName, Context context) {
+    private boolean checkFileExists(String fileName, Context context) {
         File file = new File(context.getFilesDir(), fileName);
         return file.exists();
     }
@@ -201,7 +203,7 @@ public class DatabaseHandler {
         // initialise the file
         // fake tag: for testing only
 
-        TagProperties tag = new TagProperties("123", "tag1", 1, 123, 4);
+        TagProperties tag = new TagProperties("tag1", 1);
 
         HashMap<String, TagProperties> dummy = new HashMap<String, TagProperties>();
         dummy.put(tag.getId(), tag);
@@ -223,7 +225,7 @@ public class DatabaseHandler {
         // initialise the file
         // fake tag: for testing only
 
-        TagProperties tag = new TagProperties("123", "tag1", 1, 123, 4);
+        TagProperties tag = new TagProperties("tag1", 1);
 
         HashMap<String, ArrayList<Session>> dummy = new HashMap<String, ArrayList<Session>>();
         Session session = new Session(tag.getStartTime(), tag.getEndTime());
@@ -249,7 +251,7 @@ public class DatabaseHandler {
         // initialise the file
         // fake tag: for testing only
 
-        TagProperties tag = new TagProperties("123", "tag1", 1, 123, 4);
+        TagProperties tag = new TagProperties("tag1", 1);
 
         HashMap<Integer, ArrayList<Session>> dummy = new HashMap<Integer, ArrayList<Session>>();
         Session session = new Session(tag.getStartTime(), tag.getEndTime());
