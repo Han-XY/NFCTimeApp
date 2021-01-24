@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -101,5 +102,12 @@ public class MainActivity extends CustomActivity {
         if (mNfcAdapter != null)
             mNfcAdapter.disableForegroundDispatch(this);
     }
+
+    @Override
+    public void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        Toast.makeText(this, "ON NEW INTENT CALLED", Toast.LENGTH_LONG).show();
+    }
+
 
 }
