@@ -96,11 +96,12 @@ public class EditorFragment extends GeneralEditorFragment implements Actor {
     }
 
     private void startDelete() {
-        Log.i("NFC", "Starting delete");
         CustomActivity activity = (CustomActivity) getActivity();
         FrontBackInterface frontBackInterface = activity.getFrontBackInterface();
 
         String tagId = activity.getSelectedTagId();
+
+        Log.i("TXBB1000", "EditorFragment::startDelete " + tagId);
 
         frontBackInterface.deleteTag(tagId);
 

@@ -146,15 +146,33 @@ public class TagManager {
     // call sync() after the data is available
     public void syncRequest() {
 
-        //get data first
-        Map<String, TagProperties> fakeData = new HashMap<>();
+        HashMap<String, TagProperties> mapping = db.getAll(this.currentActivity);
 
-        fakeData.put("239hsgras3", new TagProperties("Read about life", 1));
-        fakeData.put("23rrsd", new TagProperties("Do calculus", 5));
-        fakeData.put("sdvsdv3", new TagProperties("Play games", 9));
-        fakeData.put("343ty ", new TagProperties("Exercise", 2));
+        HashMap<String, TagProperties> mapping_filtered = new HashMap<>();
 
-        frontBackInterface.sync(fakeData);
+        for (String key : mapping.keySet()) {
+            if (mapping.get(key).getEndTime() == 0) {
+                mapping_filtered.put(key, mapping.get(key));
+            }
+        }
+
+
+//        //get data first
+//        Map<String, TagProperties> fakeData = new HashMap<>();
+//
+//        fakeData.put("239hsgras3", new TagProperties("Read about life", 1));
+//        fakeData.put("23rrsd", new TagProperties("Do calculus", 5));
+//        fakeData.put("sdvsdv3", new TagProperties("Play games", 9));
+//        fakeData.put("343ty ", new TagProperties("Exercise", 2));
+
+        String allKeys = "";
+        for (String s : mapping.keySet()) {
+            allKeys += s + " " + mapping.get(s).getEndTime() + " ";
+        }
+        Log.i("TXBB1000", "TagManager::syncRequest " + allKeys);
+
+
+        frontBackInterface.sync(mapping_filtered);
 
     }
 
