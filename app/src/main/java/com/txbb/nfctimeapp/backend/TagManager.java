@@ -128,6 +128,7 @@ public class TagManager {
 
         else {
             // new id, we need to call creatTag in db and do the relevant initialisation
+            tagProperties.setId(id);
             db.createTag(tagProperties,currentActivity);
             Log.i("TXBB1000", "TagManager::updateTag::else");
             db.debug();
