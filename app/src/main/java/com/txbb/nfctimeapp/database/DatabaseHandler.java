@@ -18,6 +18,16 @@ import java.util.UUID;
 
 public class DatabaseHandler {
 
+    // singleton pattern
+    // make sure only one instance of db is constructed
+    private static DatabaseHandler db = new DatabaseHandler();
+
+    private DatabaseHandler() {}
+
+    public static DatabaseHandler getDb() {
+        return db;
+    }
+
     private static Gson gson = new Gson();
 
     // <key:category name, sessions>
