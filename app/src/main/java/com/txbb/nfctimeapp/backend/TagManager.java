@@ -42,7 +42,7 @@ public class TagManager {
         // check if this id is valid/existing
         // if id is not found:
         // notification: this event has been deleted; you need to set a new event for this tag
-        if (db.containsId(id,currentActivity)) {
+        if (!db.containsId(id,currentActivity)) {
             frontBackInterface.deletedTagNotification();
             return;
         }
