@@ -49,6 +49,7 @@ public class RadarChartActivity extends AppCompatActivity {
         System.out.println(radarData);
         radarChart.setData(radarData);
 
+
     }
 
 }
