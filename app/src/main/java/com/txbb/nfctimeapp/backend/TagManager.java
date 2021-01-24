@@ -166,7 +166,7 @@ public class TagManager {
         for (String s : mapping.keySet()) {
             allKeys += s + " " + mapping.get(s).getEndTime() + " ";
         }
-        //Log.i("TXBB1000", "TagManager::syncRequest " + allKeys);
+        Log.i("TXBB1000", "TagManager::syncRequest " + allKeys);
 
 
         frontBackInterface.sync(mapping_filtered);
