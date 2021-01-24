@@ -84,6 +84,7 @@ public class CategoryImageButton extends androidx.appcompat.widget.AppCompatImag
     void toggleSetEffect() {
         Toast.makeText(this.parentFragment.getActivity(), "B", Toast.LENGTH_LONG).show();
 
+        this.setBackgroundResource(R.drawable.ic_btn2);
         this.getBackground().setColorFilter(new LightingColorFilter(0x000000, this.selectionColor));
         this.setColorFilter(Color.argb(255, 255, 255, 255));
     }
@@ -96,7 +97,8 @@ public class CategoryImageButton extends androidx.appcompat.widget.AppCompatImag
     void toggleUnsetEffect() {
         Toast.makeText(this.parentFragment.getActivity(), "C", Toast.LENGTH_LONG).show();
 
-        this.getBackground().setColorFilter(null);
+        this.setBackgroundResource(R.drawable.ic_btn);
+        //this.getBackground().setColorFilter(null);
         this.setColorFilter(Color.argb(255, 0, 0, 0));
     }
 
