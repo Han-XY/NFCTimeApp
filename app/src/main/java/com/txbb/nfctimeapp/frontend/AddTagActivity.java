@@ -12,7 +12,7 @@ import com.txbb.nfctimeapp.backend.CustomActivity;
 import java.util.List;
 import java.util.Map;
 
-public class AddTagActivity extends CustomActivity implements Actor {
+public class AddTagActivity extends CustomActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,36 +22,4 @@ public class AddTagActivity extends CustomActivity implements Actor {
         getSupportActionBar().setTitle("New activity!");  // provide compatibility to all the versions
     }
 
-    @Override
-    public void onUnknownTagRead() {
-        List<Actor> fragments = super.getFragments();
-        for (Actor actor : fragments) {
-            actor.onUnknownTagRead();
-        }
-    }
-
-    @Override
-    public void onKnownTagRead() {
-        List<Actor> fragments = super.getFragments();
-        for (Actor actor : fragments) {
-            actor.onKnownTagRead();
-        }
-    }
-
-    @Override
-    public void onTagRegister(String id) {
-        List<Actor> fragments = super.getFragments();
-        for (Actor actor : fragments) {
-            actor.onTagRegister(id);
-        }
-    }
-
-    @Override
-    public void sync(Map<String, TagProperties> tags) {
-        List<Actor> fragments = super.getFragments();
-
-        for (Actor actor : fragments) {
-            actor.sync(tags);
-        }
-    }
 }

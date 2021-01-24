@@ -27,7 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends CustomActivity implements Actor {
+public class MainActivity extends CustomActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -35,6 +35,8 @@ public class MainActivity extends CustomActivity implements Actor {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /* Initialisation of frontend/backend interface */
+
+        this.appState = AppState.STANDARD;
 
         super.initCategoryManager();
         super.frontBackInterface = new FrontBackInterface(this);
@@ -71,29 +73,4 @@ public class MainActivity extends CustomActivity implements Actor {
                 || super.onSupportNavigateUp();
     }
 
-    @Override
-    public void onUnknownTagRead() {
-
-    }
-
-    @Override
-    public void onKnownTagRead() {
-
-    }
-
-    @Override
-    public void onTagRegister(String id) {
-
-    }
-
-    @Override
-    public void sync(Map<String, TagProperties> tags) {
-        List<Actor> fragments = super.getFragments();
-
-        System.out.println(fragments.size());
-
-        for (Actor actor : fragments) {
-            actor.sync(tags);
-        }
-    }
 }

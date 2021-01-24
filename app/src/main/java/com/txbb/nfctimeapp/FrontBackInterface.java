@@ -1,6 +1,7 @@
 package com.txbb.nfctimeapp;
 
 import com.txbb.nfctimeapp.backend.Actor;
+import com.txbb.nfctimeapp.backend.CustomActivity;
 import com.txbb.nfctimeapp.backend.TagManager;
 import com.txbb.nfctimeapp.frontend.AppState;
 
@@ -8,11 +9,11 @@ import java.util.Map;
 
 public class FrontBackInterface {
 
-    private Actor currentActor;
+    private CustomActivity currentActivity;
     private TagManager tagManager;
 
-    public FrontBackInterface(Actor currentActor) {
-        this.currentActor = currentActor;
+    public FrontBackInterface(CustomActivity currentActivity) {
+        this.currentActivity = currentActivity;
         this.tagManager = new TagManager(this);
     }
 
@@ -36,10 +37,8 @@ public class FrontBackInterface {
 
     // get the current state of the activity: one of STANDARD, REGISTRATION and NEW_TAG
     // need to change the return type
-    // TODO: need to add a new state OLD_TAG
-
     public AppState getCurrentState() {
-        return AppState.REGISTRATION;
+        return currentActivity.getAppState();
     }
 
     // STANDARD state: read a non-empty tag, give start signal
@@ -64,7 +63,7 @@ public class FrontBackInterface {
         // notify users that they need to take the tag away, input data and then scan tag again
         // no need to generate new ID here
         // we will take care of it in the write step in TagIO
-
+        this.currentActivity.onScanRequest(AppState.NEW_TAG);
     }
 
     // in registration state: user reads an old tag with a deleted id
@@ -72,12 +71,14 @@ public class FrontBackInterface {
     public void oldTagRegistration() {
         // change state to OLD_TAG
         // notify users to put away tag, input data and scan tag again
+        this.currentActivity.onScanRequest(AppState.OLD_TAG);
     }
 
     // we are in registration state, the user reads an non-empty tag
     // give a warning that we are registering an existing tag, state remains in registration
     public void onKnownTagRegistration() {
-        this.currentActor.onKnownTagRead();
+
+        this.currentActivity.onBadRegister();
     }
 
     // we are in new_tag state, we've successfully registered an id to the new tag
@@ -86,7 +87,7 @@ public class FrontBackInterface {
     // tell front end that our tag register is successful
     // front end will then transit to STANDARD state and send backend the tag property info
     public void onTagRegister(String id) {
-        this.currentActor.onTagRegister(id);
+        this.currentActivity.onTagRegisterSuccess(id);
     }
 
     // we are in new_tag state and want to assign a new id to a new tag
@@ -96,11 +97,12 @@ public class FrontBackInterface {
         // give user notification that register fails, probably due to tag leaving too early
         // state stays at NEW_TAG
         // ask users to scan the same tag again
+        this.currentActivity.onTagRegisterFailure();
     }
 
     // pass all the data to the front end
     public void sync(Map<String, TagProperties> tags) {
-        this.currentActor.sync(tags);
+        this.currentActivity.sync(tags);
     }
 
 }

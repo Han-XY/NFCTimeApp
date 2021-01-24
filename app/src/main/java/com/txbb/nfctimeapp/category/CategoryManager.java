@@ -20,8 +20,21 @@ public class CategoryManager {
     private void fetchCategories() {
         categoryList.add(new Category("Reading", R.drawable.ic_book, 1));
         categoryList.add(new Category("Exercise", R.drawable.ic_gym, 2));
-        categoryList.add(new Category("Cooking", R.drawable.ic_pancake, 3));
-        categoryList.add(new Category("Guitar", R.drawable.ic_music, 4));
+        categoryList.add(new Category("Pancakes", R.drawable.ic_pancake, 3));
+        categoryList.add(new Category("Music", R.drawable.ic_music, 4));
+        categoryList.add(new Category("Maths", R.drawable.ic_math, 5));
+        categoryList.add(new Category("Love", R.drawable.ic_love_birds, 6));
+        categoryList.add(new Category("History", R.drawable.ic_history, 7));
+        categoryList.add(new Category("Flask", R.drawable.ic_flask, 8));
+        categoryList.add(new Category("Games", R.drawable.ic_console, 9));
+        categoryList.add(new Category("Party", R.drawable.ic_confetti, 10));
+        categoryList.add(new Category("Exploration", R.drawable.ic_compass, 11));
+        categoryList.add(new Category("Cooking", R.drawable.ic_chef, 12));
+        categoryList.add(new Category("School", R.drawable.ic_graduation_hat, 13));
+        categoryList.add(new Category("Algorithms", R.drawable.ic_neural, 14));
+        categoryList.add(new Category("Biology", R.drawable.ic_dna, 15));
+        categoryList.add(new Category("Friendship", R.drawable.ic_support, 16));
+
     }
 
     /**

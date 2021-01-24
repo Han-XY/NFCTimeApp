@@ -1,16 +1,20 @@
 package com.txbb.nfctimeapp.backend;
 
 import com.txbb.nfctimeapp.TagProperties;
+import com.txbb.nfctimeapp.frontend.AppState;
 
 import java.util.Map;
 
 public interface Actor {
 
-    void onUnknownTagRead();
+    void onTagRegisterSuccess(String id);
 
-    void onKnownTagRead();
+    void onTagRegisterFailure();
 
-    void onTagRegister(String id);
+    void onScanRequest(AppState nextState);
+
+    void onBadRegister();
 
     void sync(Map<String, TagProperties> tags);
+
 }

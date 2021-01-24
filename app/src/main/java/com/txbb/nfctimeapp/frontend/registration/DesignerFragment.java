@@ -19,6 +19,7 @@ import com.txbb.nfctimeapp.TagProperties;
 import com.txbb.nfctimeapp.backend.Actor;
 import com.txbb.nfctimeapp.backend.CustomActivity;
 import com.txbb.nfctimeapp.category.CategoryButtonGroup;
+import com.txbb.nfctimeapp.frontend.AppState;
 import com.txbb.nfctimeapp.frontend.GeneralEditorFragment;
 
 import java.util.Map;
@@ -74,17 +75,22 @@ public class DesignerFragment extends GeneralEditorFragment implements Actor {
 
 
     @Override
-    public void onUnknownTagRead() {
+    public void onTagRegisterSuccess(String id) {
 
     }
 
     @Override
-    public void onKnownTagRead() {
+    public void onTagRegisterFailure() {
 
     }
 
     @Override
-    public void onTagRegister(String id) {
+    public void onScanRequest(AppState nextState) {
+
+    }
+
+    @Override
+    public void onBadRegister() {
 
     }
 

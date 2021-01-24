@@ -1,8 +1,8 @@
 package com.txbb.nfctimeapp.frontend.graphs;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Fragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.txbb.nfctimeapp.R;
+import com.txbb.nfctimeapp.TagProperties;
+import com.txbb.nfctimeapp.backend.Actor;
+import com.txbb.nfctimeapp.frontend.AppState;
 
-public class GraphFragment extends Fragment {
+import java.util.Map;
+
+public class GraphFragment extends Fragment implements Actor {
 
     private GraphViewModel mViewModel;
 
@@ -35,4 +40,29 @@ public class GraphFragment extends Fragment {
 //        // TODO: Use the ViewModel
     }
 
+
+    @Override
+    public void onTagRegisterSuccess(String id) {
+
+    }
+
+    @Override
+    public void onTagRegisterFailure() {
+
+    }
+
+    @Override
+    public void onScanRequest(AppState nextState) {
+
+    }
+
+    @Override
+    public void onBadRegister() {
+
+    }
+
+    @Override
+    public void sync(Map<String, TagProperties> tags) {
+
+    }
 }

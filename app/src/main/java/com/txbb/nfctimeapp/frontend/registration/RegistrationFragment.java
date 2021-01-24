@@ -1,5 +1,6 @@
 package com.txbb.nfctimeapp.frontend.registration;
 
+import android.app.AppOpsManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.txbb.nfctimeapp.R;
 import com.txbb.nfctimeapp.TagProperties;
 import com.txbb.nfctimeapp.backend.Actor;
 import com.txbb.nfctimeapp.backend.CustomActivity;
+import com.txbb.nfctimeapp.frontend.AppState;
 
 import java.util.Map;
 
@@ -31,6 +33,8 @@ public class RegistrationFragment extends Fragment implements Actor {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        ((CustomActivity) getActivity()).setState(AppState.REGISTRATION);
 
         return inflater.inflate(R.layout.registration_fragment, container, false);
     }
@@ -49,7 +53,18 @@ public class RegistrationFragment extends Fragment implements Actor {
         ((CustomActivity) getActivity()).getFrontBackInterface().
                 updateTagProperties(tagId, tagProperties);
 
+        /* Assume success */
+
         this.displayMessage("Success!");
+
+    }
+
+
+    @Override
+    public void onTagRegisterSuccess(String id) {
+        this.setTagInfo(id);
+
+        ((CustomActivity) getActivity()).setState(AppState.STANDARD);
 
         NavHostFragment navHostFragment =
                 (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
@@ -58,18 +73,19 @@ public class RegistrationFragment extends Fragment implements Actor {
     }
 
     @Override
-    public void onUnknownTagRead() {
-        this.displayMessage("Please scan again to register.");
+    public void onBadRegister() {
+        this.displayMessage("This tag is already in use!");
     }
 
     @Override
-    public void onKnownTagRead() {
-        this.displayMessage("This tag is already used. Please unlink it or try another.");
+    public void onTagRegisterFailure() {
+        this.displayMessage("Tag linking failed. Please scan again.");
     }
 
     @Override
-    public void onTagRegister(String id) {
-        this.setTagInfo(id);
+    public void onScanRequest(AppState appState) {
+        ((CustomActivity) getActivity()).setState(appState);
+        this.displayMessage("Please scan the tag again to finish linking.");
     }
 
     @Override

@@ -31,6 +31,7 @@ import com.txbb.nfctimeapp.category.Category;
 import com.txbb.nfctimeapp.category.CategoryButtonGroup;
 import com.txbb.nfctimeapp.category.CategoryManager;
 import com.txbb.nfctimeapp.frontend.AddTagActivity;
+import com.txbb.nfctimeapp.frontend.AppState;
 import com.txbb.nfctimeapp.frontend.MainActivity;
 import com.txbb.nfctimeapp.frontend.registration.RegistrationFragment;
 
@@ -80,7 +81,12 @@ public class HomeFragment extends Fragment implements Actor {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(1000);
+
+                        if (getActivity() == null) {
+                            continue;
+                        }
+
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -154,18 +160,24 @@ public class HomeFragment extends Fragment implements Actor {
         return (l / 60) + " minutes";
     }
 
+
     @Override
-    public void onUnknownTagRead() {
+    public void onTagRegisterSuccess(String id) {
 
     }
 
     @Override
-    public void onKnownTagRead() {
+    public void onTagRegisterFailure() {
 
     }
 
     @Override
-    public void onTagRegister(String id) {
+    public void onScanRequest(AppState nextState) {
+
+    }
+
+    @Override
+    public void onBadRegister() {
 
     }
 
