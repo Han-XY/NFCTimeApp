@@ -16,6 +16,16 @@ public class TagProperties {
         this.category = category;
     }
 
+    public TagProperties(TagProperties tp) {
+        this.id = tp.id;
+        this.name = tp.name;
+        this.category = tp.category;
+        this.startTime = tp.startTime;
+        this.endTime = tp.endTime;
+        this.durationToday = tp.durationToday;
+        this.isDeleted = tp.isDeleted;
+    }
+
     public String getId() {
         return id;
     }

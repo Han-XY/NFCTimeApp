@@ -285,7 +285,11 @@ public class DatabaseHandler {
 
     public HashMap<String, TagProperties> getAll(Context context) {
         readTagsJson(context);
-        return this.idToTag;
+        HashMap<String, TagProperties> result = new HashMap<>();
+        for (String id: idToTag.keySet()) {
+            result.put(id,new TagProperties(idToTag.get(id)));
+        }
+        return result;
     }
 
     public void debug() {
