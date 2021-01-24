@@ -12,6 +12,13 @@ public class TagProperties {
         this.category = category;
     }
 
+    public TagProperties(String name, int category, long starTime, long endTime) {
+        this.name = name;
+        this.category = category;
+        this.startTime = starTime;
+        this.endTime = endTime;
+    }
+
     public void setStartTime(long startTime) {
         this.startTime = startTime;
     }

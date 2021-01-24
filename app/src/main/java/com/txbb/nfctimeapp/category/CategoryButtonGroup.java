@@ -42,4 +42,25 @@ public class CategoryButtonGroup {
         }
     }
 
+    public boolean isSelected() {
+        return this.selected != null;
+    }
+
+    public int getSelectedCategory() {
+        return this.selected.getCategory().getCategoryId();
+    }
+
+    public void select(int categoryId) {
+        if (this.selected != null) {
+            selected.toggleUnsetEffect();
+        }
+
+        for (CategoryImageButton categoryImageButton : this.buttons) {
+            if (categoryImageButton.getCategory().getCategoryId() == categoryId) {
+                categoryImageButton.toggleSetEffect();
+                selected = categoryImageButton;
+                return;
+            }
+        }
+     }
 }

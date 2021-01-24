@@ -8,6 +8,9 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableRow;
+
+import androidx.constraintlayout.widget.ConstraintAttribute;
+
 import com.txbb.nfctimeapp.R;
 import com.txbb.nfctimeapp.util.Units;
 
@@ -15,12 +18,14 @@ public class CategoryImageButton extends androidx.appcompat.widget.AppCompatImag
 
     private CategoryButtonGroup group;
     private int selectionColor;
+    private Category category;
 
-    public CategoryImageButton(Context context, int image, int selectionColor) {
+    public CategoryImageButton(Context context, int image, int selectionColor, Category category) {
         super(context);
         this.setImageResource(image);
         this.setBackgroundResource(R.drawable.ic_btn);
         this.selectionColor = selectionColor;
+        this.category = category;
         init();
     }
 
@@ -83,6 +88,10 @@ public class CategoryImageButton extends androidx.appcompat.widget.AppCompatImag
     void toggleUnsetEffect() {
         this.getBackground().setColorFilter(null);
         this.setColorFilter(Color.argb(255, 0, 0, 0));
+    }
+
+    public Category getCategory() {
+        return this.category;
     }
 
 }

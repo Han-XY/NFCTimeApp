@@ -14,23 +14,14 @@ public class CategoryManager {
     public CategoryManager() {
         this.categoryList = new ArrayList<>();
 
-        /*
-            TODO: For now we are just creating 50 test categories at runtime.
-            Ideally these should be read from disc.
-        */
-
-        for (int i = 0; i < 17; i ++) {
-            int iconId = new int[]{R.drawable.ic_book, R.drawable.ic_gym,
-                    R.drawable.ic_music,  R.drawable.ic_pancake,
-            }[new Random().nextInt(4)];
-        }
+        this.fetchCategories();
     }
 
     private void fetchCategories() {
-        categoryList.add(new Category("Reading", R.drawable.ic_book));
-        categoryList.add(new Category("Exercise", R.drawable.ic_gym));
-        categoryList.add(new Category("Cooking", R.drawable.ic_pancake));
-        categoryList.add(new Category("Guitar", R.drawable.ic_music));
+        categoryList.add(new Category("Reading", R.drawable.ic_book, 1));
+        categoryList.add(new Category("Exercise", R.drawable.ic_gym, 2));
+        categoryList.add(new Category("Cooking", R.drawable.ic_pancake, 3));
+        categoryList.add(new Category("Guitar", R.drawable.ic_music, 4));
     }
 
     /**
@@ -45,7 +36,7 @@ public class CategoryManager {
             return false;
         }
 
-        this.categoryList.add(new Category(name, icon));
+        this.categoryList.add(new Category(name, icon, 5));
 
         return true;
     }
@@ -72,6 +63,16 @@ public class CategoryManager {
 
     public List<Category> getCategories() {
         return this.categoryList;
+    }
+
+    public Category getCategoryFromId(int categoryId) {
+        for (Category category : this.categoryList) {
+            if (category.getCategoryId() == categoryId) {
+                return category;
+            }
+        }
+
+        throw new RuntimeException("Unexpected category ID detected");
     }
 
 }

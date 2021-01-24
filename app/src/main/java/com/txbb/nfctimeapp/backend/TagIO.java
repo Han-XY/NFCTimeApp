@@ -1,5 +1,6 @@
 package com.txbb.nfctimeapp.backend;
 import com.txbb.nfctimeapp.FrontBackInterface;
+import com.txbb.nfctimeapp.frontend.AppState;
 
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -25,20 +26,13 @@ public class TagIO extends AppCompatActivity {
     private TagManager tagManager;
     private FrontBackInterface frontBackInterface;
 
-    private enum State {
-        REGISTRATION,
-        STANDARD,
-        NEW_TAG,
-        OLD_TAG
-    }
-
     @Override
     public void onNewIntent(Intent intent){
         super.onNewIntent(intent);
         setIntent(intent);
 
         // get state
-        State state = frontBackInterface.getCurrentState();
+        AppState state = frontBackInterface.getCurrentState();
 
         switch (state) {
             // In STANDARD state, empty tags are ignored.

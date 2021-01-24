@@ -1,4 +1,4 @@
-package com.txbb.nfctimeapp.ui.settings;
+package com.txbb.nfctimeapp.frontend.settings;
 
 import androidx.lifecycle.ViewModelProvider;
 

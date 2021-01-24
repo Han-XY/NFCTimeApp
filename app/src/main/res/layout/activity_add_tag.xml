@@ -2,67 +2,23 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_tag_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddTagActivity">
+    tools:context=".frontend.AddTagActivity">
 
-    <LinearLayout
-        android:id="@+id/linear_layout_add_tag"
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_add_tag"
+        android:padding="20dp" />
+
+    <fragment
+        android:id="@+id/reg_fragment"
+        android:name="com.txbb.nfctimeapp.frontend.registration.DesignerFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-
-        <EditText
-            android:id="@+id/editTextTextPersonName3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TableLayout
-                    android:id="@+id/table_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </TableLayout>
-            </LinearLayout>
-        </ScrollView>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-
-    </LinearLayout>
+        />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -77,20 +33,5 @@
             app:popupTheme="@style/Theme.NFCTimeApp.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_right_arrow" />
-
-
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_add_tag"
-        android:padding="20dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

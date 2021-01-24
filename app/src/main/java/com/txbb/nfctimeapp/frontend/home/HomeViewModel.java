@@ -1,4 +1,4 @@
-package com.txbb.nfctimeapp.ui.home;
+package com.txbb.nfctimeapp.frontend.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

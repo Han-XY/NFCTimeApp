@@ -14,14 +14,15 @@ import com.txbb.nfctimeapp.TagProperties;
 import java.time.Instant;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class TagManager {
 
     private FrontBackInterface frontBackInterface;
 
-    // this function will be called when we create the frontBackInterface
-    public void setFrontBackInterface(FrontBackInterface frontBackInterface) {
+    public TagManager(FrontBackInterface frontBackInterface) {
         this.frontBackInterface = frontBackInterface;
     }
 
@@ -75,9 +76,15 @@ public class TagManager {
     // get a map of from all the ids to properties from backend database
     // call sync() after the data is available
     public void syncRequest() {
-        // TODO: read data from database
 
-        frontBackInterface.sync(null);
+        //get data first
+        Map<String, TagProperties> fakeData = new HashMap<>();
+
+        fakeData.put("348tu393g38h384gh3", new TagProperties("lmao", 1, 1611438728, 0));
+        fakeData.put("23rrsd", new TagProperties("lmao2", 2, 1611438728, 0));
+        fakeData.put("sdvsdv3", new TagProperties("lmao3", 3, 1611438728, 0));
+
+        frontBackInterface.sync(fakeData);
 
     }
 
@@ -89,5 +96,12 @@ public class TagManager {
 
         return UUID.randomUUID().toString();
 
+    }
+
+    public void setFrontBackInterface(FrontBackInterface frontBackInterface) {
+        this.frontBackInterface = frontBackInterface;
+    }
+
+    public void setFrontBackManager(FrontBackInterface frontBackInterface) {
     }
 }
