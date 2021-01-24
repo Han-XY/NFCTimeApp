@@ -332,8 +332,8 @@ public class DatabaseHandler {
         ArrayList<Session> sessions = new ArrayList<>();
         this.idToSessions.put(tag.getId(), sessions);
 
-
         writeTagsJson(context);
+        writeTagSessionsJson(context);
 
         // TEST::
         readTagsJson(context);
