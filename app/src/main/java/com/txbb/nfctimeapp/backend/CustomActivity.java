@@ -21,9 +21,6 @@ import java.util.Map;
 
 public class CustomActivity extends TagIO implements Actor {
 
-    // interfacing
-    protected FrontBackInterface frontBackInterface;
-
     // state
     protected AppState appState;
 

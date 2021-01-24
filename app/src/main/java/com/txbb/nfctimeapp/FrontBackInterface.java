@@ -111,4 +111,8 @@ public class FrontBackInterface {
     public void debug(String str) {
         Toast.makeText(this.currentActivity, str, Toast.LENGTH_LONG).show();
     }
+
+    public TagManager getTagManager() {
+        return this.tagManager;
+    }
 }

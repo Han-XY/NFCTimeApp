@@ -18,8 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class TagIO extends AppCompatActivity {
 
-    private TagManager tagManager;
-    private FrontBackInterface frontBackInterface;
+    protected FrontBackInterface frontBackInterface;
 
     @Override
     public void onNewIntent(Intent intent){
@@ -59,7 +58,7 @@ public class TagIO extends AppCompatActivity {
 
     public void onStandardRead() {
         if (!this.isTagEmpty()) {
-            tagManager.onStandardRead(this.readTag());
+            frontBackInterface.getTagManager().onStandardRead(this.readTag());
         }
         // simply ignore the scan if the tag is empty
     }
@@ -67,9 +66,9 @@ public class TagIO extends AppCompatActivity {
     public void onRegistrationRead() {
 
         if (this.isTagEmpty()) {
-            tagManager.onRegistrationRead(true, null);
+            frontBackInterface.getTagManager().onRegistrationRead(true, null);
         } else {
-            tagManager.onRegistrationRead(false, this.readTag());
+            frontBackInterface.getTagManager().onRegistrationRead(false, this.readTag());
         }
 
     }
@@ -82,7 +81,7 @@ public class TagIO extends AppCompatActivity {
     public void onWrite() {
 
         // Assign a new uuid
-        String newID = tagManager.generateUUID();
+        String newID = frontBackInterface.getTagManager().generateUUID();
 
         // Write the new ID into tag, if succeed, register id
         if (this.writeTag(newID)){
