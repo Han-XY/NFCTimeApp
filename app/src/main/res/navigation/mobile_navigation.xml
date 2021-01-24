@@ -15,6 +15,7 @@
             app:destination="@id/nav_home"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
+            app:launchSingleTop="false"
             app:popEnterAnim="@anim/slide_in"
             app:popExitAnim="@anim/slide_out" />
     </fragment>
@@ -29,6 +30,7 @@
             app:destination="@id/registrationFragment"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
+            app:launchSingleTop="false"
             app:popEnterAnim="@anim/slide_in"
             app:popExitAnim="@anim/slide_out" />
     </fragment>

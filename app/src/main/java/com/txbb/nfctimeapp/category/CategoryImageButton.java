@@ -52,7 +52,7 @@ public class CategoryImageButton extends androidx.appcompat.widget.AppCompatImag
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         int sideLength = Units.dpConvert(50, displayMetrics);
         int padding = Units.dpConvert(8, displayMetrics);
-        int marginX = Units.dpConvert(23, displayMetrics);
+        int marginX = Units.dpConvert(18, displayMetrics);
         int marginY = Units.dpConvert(5, displayMetrics);
 
         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(sideLength, sideLength);
