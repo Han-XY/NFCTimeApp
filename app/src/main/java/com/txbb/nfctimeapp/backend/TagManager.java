@@ -35,9 +35,16 @@ public class TagManager {
         frontBackInterface.deletedTagNotification();
 
         // TODO: if id is found, start or stop an event accordingly
-        // if the event is ongoing, we stop the event, update database and front end
-        // else, we start the event and do the update as well
-        // call onTagStart or onTagStop in frontbackinterface
+        // we check if the event is ongoing by looking at if the starting time has been set
+        // if there's starting time
+        // we need to stop the event:
+        // - get the stop timestamp, pass it to front end by calling onTagStop
+        // - add a session to backend database
+        // - clear both start and end time
+
+        // else, we need to start the event:
+        // - get the start timestamp, pass it to front end by calling onTagStart
+        // - add the time to our tag properties
     }
 
     // receives data in registration state
