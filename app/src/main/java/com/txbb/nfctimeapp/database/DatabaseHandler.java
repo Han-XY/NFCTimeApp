@@ -22,6 +22,12 @@ public class DatabaseHandler {
         return file.exists();
     }
 
+    /**
+     * Write new arraylist of tags to the db
+     *
+     * @param content - lists of tags read from previous tags.json
+     * @param context - activity
+     */
     // Write array list of NfcTag to json file "tags.json"
     private static void writeTagToFile(ArrayList<NfcTag> content, Context context) {
 
@@ -41,7 +47,12 @@ public class DatabaseHandler {
 
     }
 
-    // Write array list of CategoryHistory to json file "categoryHistory.json"
+    /**
+     *  Write array list of CategoryHistory to json file "categoryHistory.json"
+     *
+     * @param content - lists of categories read from previous tags.json
+     * @param context - activity
+     */
     private static void writeCategoryHistoryToFile(ArrayList<CategoryHistory> content, Context context) {
 
         try {
@@ -59,7 +70,13 @@ public class DatabaseHandler {
 
     }
 
-    // Read and return file which has fileName under context file directory content in String
+    /**
+     * Read and return file which has fileName under context file directory content in String
+     *
+     * @param fileName  - the file to read from
+     * @param context - activity
+     * @return fileContent - a string type of fileContent transferred from bytes
+     */
     private static String readFileContent(String fileName, Context context){
 
         // Default file output
@@ -82,8 +99,12 @@ public class DatabaseHandler {
         return fileContent;
     }
 
-    // Get NfcTag List from json file "tags.json",
-    // if there is no such file, return an empty array list
+    /**
+     * Get NfcTag List from json file "tags.json",
+     *
+     * @param context - activity
+     * @return tags - ArrayList<Nfc Tag>
+     */
     private static ArrayList<NfcTag> getTagList(Context context){
 
         ArrayList<NfcTag> tags = new ArrayList<NfcTag>();
@@ -98,7 +119,13 @@ public class DatabaseHandler {
 
     }
 
-    // Get CategoryHistory List from json file "categoryHistory.json",
+    /**
+     * Get CategoryHistory List from json file "categoryHistory.json",
+     *
+     * @param context - activity
+     * @return categories - an arraylist of categoryhistory
+     */
+    //
     // if there is no such file, return an empty array list
     private static ArrayList<CategoryHistory> getCategoryHistoryList(Context context){
 
@@ -114,7 +141,12 @@ public class DatabaseHandler {
 
     }
 
-    // FOR TEST ONLY
+    /**
+     * TEST ONLY
+     * Reset the tags.json file containing a dummy tag
+     *
+     * @param context - activity
+     */
     public static void initTag(Context context) {
 
         // initialise the file
@@ -132,7 +164,12 @@ public class DatabaseHandler {
     }
 
 
-    // Create a tah and add the tag to the list
+    /**
+     * Main Func to write to db upon a new tag is registered
+     *
+     * @param tag - NfcTag table
+     * @param context -
+     */
     public static void createTag(NfcTag tag, Context context){
 
         // For resting only: manually reset file
@@ -152,7 +189,12 @@ public class DatabaseHandler {
 
     }
 
-    // FOR TEST ONLY
+    /**
+     * TEST ONLY
+     * Reset the categoryHistory.json file containing a dummy category
+     *
+     * @param context - activity
+     */
     public static void initCategoryHistory(Context context) {
 
         // initialise the file
@@ -168,6 +210,12 @@ public class DatabaseHandler {
 
     }
 
+    /**
+     * Add a new category to the database
+     *
+     * @param category - new CategoryHistory class
+     * @param context - activity
+     */
     public static void createCategoryHistory(CategoryHistory category, Context context) {
 
         // For resting only: manually reset file
@@ -186,6 +234,12 @@ public class DatabaseHandler {
 
     }
 
+    /**
+     * Main Func: add a new finished session under the category
+     * @param categoryName
+     * @param session
+     * @param context
+     */
     public static void addSession(String categoryName, Session session, Context context){
 
         ArrayList<CategoryHistory> categories = getCategoryHistoryList(context);
@@ -206,7 +260,13 @@ public class DatabaseHandler {
 
     }
 
-    // Check if id is in the database
+    /**
+     * Check if id is in the database
+     *
+     * @param id - tag_id
+     * @param context - activity
+     * @return boolean
+     */
     public static boolean checkTagId(String id, Context context){
 
         ArrayList<NfcTag> tags = getTagList(context);
@@ -220,6 +280,13 @@ public class DatabaseHandler {
         return false;
     }
 
+    /**
+     * Obtain the wanted NfcTag table by its id
+     *
+     * @param id - Nfctag id
+     * @param context - activity
+     * @return tag - NfcTag
+     */
     // Get the NfcTag by its id
     public static NfcTag getTagById(String id, Context context){
 
@@ -234,7 +301,13 @@ public class DatabaseHandler {
         return null;
     }
 
-    // Update the NfcTag start time by its id
+    /**
+     * Update tags.json for the Tag startTime by its id.
+     *
+     * @param id - tag id
+     * @param startTime - startTime when a tag is scanned
+     * @param context - activity
+     */
     public static void updateTagStartTime(String id, long startTime, Context context){
         ArrayList<NfcTag> tags = getTagList(context);
 
@@ -249,7 +322,13 @@ public class DatabaseHandler {
 
     }
 
-    // Update the NfcTag start time by its id
+    /**
+     * Update tags.json for the Tag endTime by its id.
+     *
+     * @param id - tag Id
+     * @param endTime - endTime when a tag is scanned
+     * @param context - activity
+     */
     public static void updateTagEndTime(String id, long endTime, Context context){
         ArrayList<NfcTag> tags = getTagList(context);
 
@@ -264,6 +343,12 @@ public class DatabaseHandler {
 
     }
 
+    /**
+     * Delete a tag from db by id
+     *
+     * @param id - tag id
+     * @param context - activity
+     */
     public static void deleteTagById(String id, Context context){
         ArrayList<NfcTag> tags = getTagList(context);
 
@@ -282,7 +367,6 @@ public class DatabaseHandler {
 
         writeTagToFile(tags, context);
     }
-
 }
 
 
