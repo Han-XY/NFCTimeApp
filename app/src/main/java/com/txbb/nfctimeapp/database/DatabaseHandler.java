@@ -171,7 +171,7 @@ public class DatabaseHandler {
 
         if (checkFileExists("tagSessions.json", context)) {
             System.out.println("File Exists");
-            String fileContent = readFileContent("tags.json", context);
+            String fileContent = readFileContent("tagSessions.json", context);
             this.idToSessions = gson.fromJson(fileContent, new TypeToken<HashMap<String, ArrayList<Session>>>() {
             }.getType());
         }
@@ -203,8 +203,8 @@ public class DatabaseHandler {
         // initialise the file
         // fake tag: for testing only
 
-        TagProperties tag = new TagProperties("tag1", 1);
-
+        TagProperties tag = new TagProperties("dummy", 1);
+        tag.setId("0");
         HashMap<String, TagProperties> dummy = new HashMap<String, TagProperties>();
         dummy.put(tag.getId(), tag);
         this.idToTag = dummy;
@@ -226,11 +226,10 @@ public class DatabaseHandler {
         // fake tag: for testing only
 
         TagProperties tag = new TagProperties("tag1", 1);
+        tag.setId("0");
 
-        HashMap<String, ArrayList<Session>> dummy = new HashMap<String, ArrayList<Session>>();
-        Session session = new Session(tag.getStartTime(), tag.getEndTime());
+        HashMap<String, ArrayList<Session>> dummy = new HashMap<>();
         ArrayList<Session> sessions = new ArrayList<>();
-        sessions.add(session);
 
         dummy.put(tag.getId(), sessions);
         this.idToSessions = dummy;
@@ -249,21 +248,18 @@ public class DatabaseHandler {
     public void initCategoryHistory(Context context) {
 
         // initialise the file
-        // fake tag: for testing only
 
-        TagProperties tag = new TagProperties("tag1", 1);
-
-        HashMap<Integer, ArrayList<Session>> dummy = new HashMap<Integer, ArrayList<Session>>();
-        Session session = new Session(tag.getStartTime(), tag.getEndTime());
+        HashMap<Integer, ArrayList<Session>> dummy = new HashMap<>();
         ArrayList<Session> sessions = new ArrayList<>();
-        sessions.add(session);
 
-        dummy.put(tag.getCategory(), sessions);
+        for (int i = 1; i < 17; i++){
+            dummy.put(i, sessions);
+        }
         this.cateToSessions = dummy;
 
         writeCategoryHistoryJson(context);
         readCategoryHistoryJson(context);
-        System.out.println("init categoryHistory.json");
+        System.out.println(this.cateToSessions);
     }
 
     /**
@@ -287,7 +283,9 @@ public class DatabaseHandler {
     public void createTag(TagProperties tag, Context context) {
 
         // For resting only: manually reset file
+        // TODO: comment out this line if not testing!!
         initTags(context);
+        initTagSessions(context);
 
         // write to tags.json
         readTagsJson(context);

@@ -70,7 +70,22 @@ public class MainActivity extends CustomActivity {
 //        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
 //                getClass()), 0);
         DatabaseHandler db = DatabaseHandler.getDb();
-        db.initCategoryHistory(this);
+        TagProperties tag1 = new TagProperties("math", 1);
+        tag1.setId("1");
+
+        TagProperties tag2 = new TagProperties("english", 2);
+        tag2.setId("2");
+
+        db.createTag(tag1,this);
+        db.createTag(tag2, this);
+
+        db.deleteTag("1", this);
+
+        tag2.setCategory(3);
+        db.updateTagProperties(tag2, this);
+
+        TagProperties tag3 = db.getProperties("2", this);
+        System.out.println(tag3.getCategory());
 
     }
 
