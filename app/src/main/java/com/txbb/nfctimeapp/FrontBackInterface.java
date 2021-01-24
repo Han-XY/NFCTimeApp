@@ -48,12 +48,12 @@ public class FrontBackInterface {
     }
 
     // STANDARD state: read a non-empty tag, give start signal
-    public void onTagStart(String id, long startTime) {
+    public void onTagStart(String id, long startTime, long durationToday) {
 
     }
 
     // STANDARD state: give stop signal for a tag
-    public void onTagStop(String id, long stopTime) {
+    public void onTagStop(String id, long startTime, long stopTime, long durationToday) {
 
     }
 
