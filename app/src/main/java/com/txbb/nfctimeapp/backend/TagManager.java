@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class TagManager {
 
@@ -31,8 +32,12 @@ public class TagManager {
         this.db = DatabaseHandler.getDb();
     }
 
-    // TagManager receives data from TagIO in standard state
+    /**
+     * Called when a tag is read during the standard read stage.
+     * @param id the id of the tag.
+     */
     public void onStandardRead(String id) {
+        Log.i("TXBB1000", "onStandardRead");
 
         // check if this id is valid/existing
         // if id is not found:
@@ -78,25 +83,35 @@ public class TagManager {
 
     }
 
-    // receives data in registration state
+
+    /**
+     * Called when a tag is read during the registration stage. The tag ID is always read and
+     * passed to this method, even if it does not exist.
+     * @param isEmpty whether the tag is empty
+     * @param id the id.
+     */
     public void onRegistrationRead(boolean isEmpty, String id) {
-        if (isEmpty) {
-            // that's what we are supposed to get in most cases
-            // trigger the registration process in the front end
+        Log.i("TXBB1000", "onRegistrationRead with id: " + id);
+
+
+//        if (isEmpty) {
+//            frontBackInterface.emptyTagRegistration();
+//            return;
+//        }
+
+        if (id == null) {
             frontBackInterface.emptyTagRegistration();
+            return;
         }
-        else {
-            // we are trying to register with a used tag
-            // check if this tag has been deleted from database
 
-            // if yes, we can simply use the existing id directly
-            // we don't need to generate a new ID in onwrite again
-            // start existing tag registration process
-            if (!db.containsId(id,currentActivity)) frontBackInterface.oldTagRegistration();
-
-            // if this tag actually exists, we throw a warning
-            else frontBackInterface.onKnownTagRegistration();
+        if (!db.containsId(id, currentActivity)) {
+            frontBackInterface.oldTagRegistration();
+            Log.i("TXBB1000", "onRegistrationRead: id not found in DB");
+        } else {
+            frontBackInterface.onKnownTagRegistration();
+            Log.i("TXBB1000", "onRegistrationRead: id found in DB");
         }
+
     }
 
     // set tagProperties for a tag id

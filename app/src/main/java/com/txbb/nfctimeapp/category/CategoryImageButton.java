@@ -72,7 +72,6 @@ public class CategoryImageButton extends androidx.appcompat.widget.AppCompatImag
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(this.parentFragment.getActivity(), "A", Toast.LENGTH_LONG).show();
         this.group.onButtonClick(this);
     }
 
@@ -82,8 +81,6 @@ public class CategoryImageButton extends androidx.appcompat.widget.AppCompatImag
      * @see com.txbb.nfctimeapp.category
      */
     void toggleSetEffect() {
-        Toast.makeText(this.parentFragment.getActivity(), "B", Toast.LENGTH_LONG).show();
-
         this.setBackgroundResource(R.drawable.ic_btn2);
         this.getBackground().setColorFilter(new LightingColorFilter(0x000000, this.selectionColor));
         this.setColorFilter(Color.argb(255, 255, 255, 255));
@@ -95,8 +92,6 @@ public class CategoryImageButton extends androidx.appcompat.widget.AppCompatImag
      * @see com.txbb.nfctimeapp.category
      */
     void toggleUnsetEffect() {
-        Toast.makeText(this.parentFragment.getActivity(), "C", Toast.LENGTH_LONG).show();
-
         this.setBackgroundResource(R.drawable.ic_btn);
         //this.getBackground().setColorFilter(null);
         this.setColorFilter(Color.argb(255, 0, 0, 0));

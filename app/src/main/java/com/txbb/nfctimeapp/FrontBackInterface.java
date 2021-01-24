@@ -107,6 +107,8 @@ public class FrontBackInterface {
         this.currentActivity.onTagRegisterFailure();
     }
 
+
+
     // pass all the data to the front end
     public void sync(Map<String, TagProperties> tags) {
         this.currentActivity.sync(tags);

@@ -2,6 +2,7 @@ package com.txbb.nfctimeapp.database;
 
 import android.content.Context;
 import android.nfc.Tag;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -271,6 +272,14 @@ public class DatabaseHandler {
      */
     public boolean containsId(String id, Context context){
         readTagsJson(context);
+
+        String allKeys = "";
+        for (String s : idToTag.keySet()) {
+            allKeys += s;
+        }
+
+        Log.i("TXBB1000", "All keys inside the JSON " + allKeys);
+
         return this.idToTag.containsKey(id);
     }
 

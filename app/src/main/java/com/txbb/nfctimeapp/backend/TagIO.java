@@ -26,6 +26,11 @@ public class TagIO extends AppCompatActivity {
 
         setIntent(intent);
 
+        // catch non-NFC intents
+        if (!this.isTag()) {
+            return;
+        }
+
         // get state
         AppState state = frontBackInterface.getCurrentState();
 
@@ -54,17 +59,20 @@ public class TagIO extends AppCompatActivity {
         }
     }
 
+    /**
+     *  Called when we read a tag during STANDARD.
+     */
     public void onStandardRead() {
-
-        if (!this.isTagEmpty() && this.isTag()) {
+        if (!this.isTagEmpty()) {
             frontBackInterface.getTagManager().onStandardRead(this.readTag());
         }
-        // simply ignore the scan if the tag is empty
     }
 
+    /**
+     *  Called when we read a tag during REGISTRATION.
+     */
     public void onRegistrationRead() {
-
-        if (this.isTagEmpty() && this.isTag()) {
+        if (this.isTagEmpty()) {
             frontBackInterface.getTagManager().onRegistrationRead(true, null);
         } else {
             frontBackInterface.getTagManager().onRegistrationRead(false, this.readTag());
@@ -72,11 +80,18 @@ public class TagIO extends AppCompatActivity {
 
     }
 
+    /**
+     *  Called when we read a tag during OLD_TAG.
+     */
     public void onOldTagRead() {
+        String id = this.readTag();
 
         frontBackInterface.onTagRegister(this.readTag());
     }
 
+    /**
+     * Called when we write to a tag during REGISTRATION.
+     */
     public void onWrite() {
 
         // Assign a new uuid
@@ -92,13 +107,11 @@ public class TagIO extends AppCompatActivity {
 
     }
 
-
     private boolean isTag() {
         return NfcAdapter.ACTION_TAG_DISCOVERED.equals(getIntent().getAction()) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction());
     }
-    private boolean isTagEmpty() {
-        // check if the tag is empty;
 
+    private boolean isTagEmpty() {
         return NfcAdapter.ACTION_TAG_DISCOVERED.equals(getIntent().getAction());
     }
 
@@ -106,7 +119,7 @@ public class TagIO extends AppCompatActivity {
         // read and return the tag id; return null uuid if not successful.
 
         // null uuid
-        String id = "00000000-0000-0000-0000-000000000000";
+        //String id = "00000000-0000-0000-0000-000000000000";
 
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())){
             Tag tag = (Tag) getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG);
@@ -114,21 +127,23 @@ public class TagIO extends AppCompatActivity {
             if (tag != null){
                 Ndef ndef = Ndef.get(tag);
                 NdefMessage msg = ndef.getCachedNdefMessage();
-                for (NdefRecord record:msg.getRecords()){
 
+                for (NdefRecord record : msg.getRecords()){
                     if (record != null){
                         String payload = new String(record.getPayload());
-                        // Example: txbb://tag.id/123e4567-e89b-12d3-a456-556642440000
-                        id = payload.substring(15);
-                    }
 
-                    else{
-                        Log.i("NFC Tag", "No tag detected");
-                    } // else
-                } // for
-            } // if
-        } // if
-        return id;
+                        Log.d("TXBB1000", payload);
+
+                        // Example: txbb://tag.id/123e4567-e89b-12d3-a456-556642440000
+                        if (payload.length() >= 15) {
+                            return payload.substring(15);
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     private boolean writeTag(String id) {

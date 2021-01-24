@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,8 @@ public class RegistrationFragment extends Fragment implements Actor {
 
     @Override
     public void onTagRegisterSuccess(String id) {
+        Log.i("TXBB1000", "onTagRegisterSuccess with id: " + id);
+
         this.setTagInfo(id);
 
         ((CustomActivity) getActivity()).setState(AppState.STANDARD);
