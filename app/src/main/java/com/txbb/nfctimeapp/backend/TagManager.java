@@ -87,10 +87,10 @@ public class TagManager {
         //get data first
         Map<String, TagProperties> fakeData = new HashMap<>();
 
-        fakeData.put("239hsgras3", new TagProperties("Read about life", 1, 1611438728, 0));
-        fakeData.put("23rrsd", new TagProperties("Do calculus", 5, 1611438728, 0));
-        fakeData.put("sdvsdv3", new TagProperties("Play games", 9, 1611438728, 0));
-        fakeData.put("343ty ", new TagProperties("Exercise", 2, 1611438728, 0));
+        fakeData.put("239hsgras3", new TagProperties("123444","Read about life", 1, 1611438728, 0));
+        fakeData.put("23rrsd", new TagProperties("123444","Do calculus", 5, 1611438728, 0));
+        fakeData.put("sdvsdv3", new TagProperties("123444","Play games", 9, 1611438728, 0));
+        fakeData.put("343ty ", new TagProperties("123444","Exercise", 2, 1611438728, 0));
 
         frontBackInterface.sync(fakeData);
 
