@@ -18,6 +18,9 @@
             app:launchSingleTop="false"
             app:popEnterAnim="@anim/slide_in"
             app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_registrationFragment_to_designerFragment"
+            app:destination="@id/designerFragment" />
     </fragment>
 
     <fragment

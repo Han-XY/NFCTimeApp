@@ -80,6 +80,13 @@ public class RegistrationFragment extends Fragment implements Actor {
     @Override
     public void onTagRegisterFailure() {
         this.displayMessage("Tag linking failed. Please scan again.");
+
+        ((CustomActivity) getActivity()).setState(AppState.STANDARD);
+
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        navController.navigate(R.id.action_registrationFragment_to_designerFragment);
     }
 
     @Override
