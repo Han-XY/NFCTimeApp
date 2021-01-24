@@ -18,9 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class TagIO extends AppCompatActivity {
 
+    public TagIO(TagManager tagManager, FrontBackInterface frontBackInterface) {
+        this.tagManager = tagManager;
+        this.frontBackInterface = frontBackInterface;
+    }
+
     private TagManager tagManager;
     private FrontBackInterface frontBackInterface;
-
 
     @Override
     public void onNewIntent(Intent intent){
@@ -36,7 +40,7 @@ public class TagIO extends AppCompatActivity {
                 this.onStandardRead();
                 break;
 
-            // In REGISTRATION state, both states will be passed to manager.
+            // In REGISTRATION state, both empty and non-empty reads will be passed to manager.
             case REGISTRATION:
                 this.onRegistrationRead();
                 break;
@@ -44,23 +48,37 @@ public class TagIO extends AppCompatActivity {
             // In new_tag state, overwrite the tag regardless;
             case NEW_TAG:
                 this.onWrite();
+                break;
+
+            // in this case, we don't have to write a new id
+            // we just need to read the old id and then pass the id back to front id
+            case OLD_TAG:
+                this.onOldTagRead();
+                break;
+
         }
     }
 
     public void onStandardRead() {
         if (!this.isTagEmpty()) {
-            tagManager.onRead(false, this.readTag());
+            tagManager.onStandardRead(this.readTag());
         }
+        // simply ignore the scan if the tag is empty
     }
 
     public void onRegistrationRead() {
 
         if (this.isTagEmpty()) {
-            tagManager.onRead(true, null);
+            tagManager.onRegistrationRead(true, null);
         } else {
-            tagManager.onRead(false, this.readTag());
+            tagManager.onRegistrationRead(false, this.readTag());
         }
 
+    }
+
+    public void onOldTagRead() {
+
+        frontBackInterface.onTagRegister(this.readTag());
     }
 
     public void onWrite() {
@@ -70,9 +88,10 @@ public class TagIO extends AppCompatActivity {
 
         // Write the new ID into tag, if succeed, register id
         if (this.writeTag(newID)){
-            tagManager.registerId(newID);
+            frontBackInterface.onTagRegister(newID);
         } else {
-            // return error message to frontend
+            // TODO: return error message to frontend
+            frontBackInterface.onTagRegisterFailure();
         }
 
     }
