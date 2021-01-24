@@ -1,6 +1,8 @@
 package com.txbb.nfctimeapp.frontend;
 
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,10 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends CustomActivity {
+
+
+    private NfcAdapter mNfcAdapter;
+    private PendingIntent mPendingIntent;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -57,6 +63,11 @@ public class MainActivity extends CustomActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        // Catch ForeGround Dispatch
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+                getClass()), 0);
     }
 
     @Override
@@ -71,6 +82,24 @@ public class MainActivity extends CustomActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mNfcAdapter != null)
+            mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, null,
+                    null);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (mNfcAdapter != null)
+            mNfcAdapter.disableForegroundDispatch(this);
     }
 
 }
