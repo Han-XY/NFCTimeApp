@@ -162,6 +162,9 @@ public class DatabaseHandler {
             this.idToTag = gson.fromJson(fileContent, new TypeToken<HashMap<String, TagProperties>>() {
             }.getType());
         }
+        else{
+            initTags(context);
+        }
     }
 
     /**
@@ -177,6 +180,9 @@ public class DatabaseHandler {
             this.idToSessions = gson.fromJson(fileContent, new TypeToken<HashMap<String, ArrayList<Session>>>() {
             }.getType());
         }
+        else{
+            initTagSessions(context);
+        }
     }
 
     /**
@@ -186,11 +192,14 @@ public class DatabaseHandler {
      */
     private void readCategoryHistoryJson(Context context) {
 
-        if (checkFileExists("tags.json", context)) {
+        if (checkFileExists("categoryHistory.json", context)) {
             System.out.println("File Exists");
             String fileContent = readFileContent("categoryHistory.json", context);
             this.cateToSessions = gson.fromJson(fileContent, new TypeToken<HashMap<Integer, ArrayList<Session>>>() {
             }.getType());
+        }
+        else{
+            initCategoryHistory(context);
         }
     }
 
