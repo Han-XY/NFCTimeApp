@@ -152,7 +152,7 @@ public class DatabaseHandler {
 
     }
 
-
+    // FOR TEST ONLY
     public static void initCategoryHistory(Context context) {
 
         // initialise the file
@@ -164,8 +164,7 @@ public class DatabaseHandler {
 
         writeCategoryHistoryToFile(categories, context);
         String fileContent = readFileContent("categoryHistory.json", context);
-        ArrayList<CategoryHistory> s = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {
-        }.getType());
+        ArrayList<CategoryHistory> s = gson.fromJson(fileContent, new TypeToken<ArrayList<CategoryHistory>>() {}.getType());
 
     }
 
