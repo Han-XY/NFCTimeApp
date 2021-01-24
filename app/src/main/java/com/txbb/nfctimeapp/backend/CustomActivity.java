@@ -151,7 +151,7 @@ public class CustomActivity extends TagIO implements Actor {
     @Override
     public void onTagStop(String id, long startTime, long durationToday) {
         for (Actor actor : this.getFragments())
-            actor.onTagStart(id, startTime, durationToday);
+            actor.onTagStop(id, startTime, durationToday);
     }
 
     public void setState(AppState state) {

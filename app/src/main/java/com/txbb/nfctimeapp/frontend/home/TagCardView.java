@@ -6,6 +6,7 @@ import android.graphics.ImageDecoder;
 import android.graphics.Typeface;
 import android.media.Image;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +39,10 @@ public class TagCardView extends CardView implements View.OnClickListener {
     private TextView durationTextView;
     private Fragment fragment;
 
-    public TagCardView(@NonNull Context context, Fragment fragment, String tagId, String text, String title, Category category) {
+    public TagCardView(@NonNull Context context, Fragment fragment, String tagId, String title, Category category) {
         super(context);
         this.tagId = tagId;
         this.title = title;
-        this.text = text;
         this.category = category;
         this.fragment = fragment;
 
@@ -128,8 +128,18 @@ public class TagCardView extends CardView implements View.OnClickListener {
         this.addView(linearLayout1);
     }
 
-    public void updateText(String text) {
+    public void updateText(long duration, long total, boolean isActive) {
+        String text;
+        if (isActive) {
+            text = "Active for " + this.longToDuration(duration);
+        } else {
+            text = "Paused for now";
+        }
         this.durationTextView.setText(text);
+    }
+
+    private String longToDuration(long l) {
+        return (l / 60) + " minutes";
     }
 
     public String getTagId() {

@@ -1,5 +1,6 @@
 package com.txbb.nfctimeapp;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.txbb.nfctimeapp.backend.Actor;
@@ -49,11 +50,13 @@ public class FrontBackInterface {
 
     // STANDARD state: read a non-empty tag, give start signal
     public void onTagStart(String id, long startTime, long durationToday) {
+        Log.i("TXBB1001", "FrontBackInterface::onTagStart");
         this.currentActivity.onTagStart(id, startTime, durationToday);
     }
 
     // STANDARD state: give stop signal for a tag
     public void onTagStop(String id, long startTime, long stopTime, long durationToday) {
+        Log.i("TXBB1001", "FrontBackInterface::onTagStop");
         this.currentActivity.onTagStop(id, startTime, durationToday);
     }
 

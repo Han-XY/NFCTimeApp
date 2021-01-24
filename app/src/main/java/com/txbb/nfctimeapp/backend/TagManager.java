@@ -52,7 +52,7 @@ public class TagManager {
         TagProperties tp = db.getProperties(id,currentActivity);
 
         // we check if the event is ongoing by looking at if the starting time has been set
-        if (tp.getStartTime() != 0) {
+        if (tp.getStartTime() > 0) {
             // if there's starting time
             // we need to stop the event:
 
@@ -67,9 +67,12 @@ public class TagManager {
             frontBackInterface.onTagStop(id,startTime,stopTime,tp.getDurationToday());
 
             // - clear both start and end time, reflect the update in database
-            tp.setStartTime(0);
-            tp.setEndTime(0);
+            tp.setStartTime(-1);
+            tp.setEndTime(-1);
             db.updateTagProperties(tp,currentActivity);
+
+            Log.i("TXBB1002", "TagManager " + id);
+            Log.i("TXBB1002", "TagManager " + Long.toString(tp.getStartTime()));
 
             // - add a session to backend database
             db.addSession(id,startTime,stopTime,currentActivity);
@@ -166,7 +169,7 @@ public class TagManager {
         for (String s : mapping.keySet()) {
             allKeys += s + " " + mapping.get(s).getEndTime() + " ";
         }
-        Log.i("TXBB1000", "TagManager::syncRequest " + allKeys);
+        //Log.i("TXBB1000", "TagManager::syncRequest " + allKeys);
 
 
         frontBackInterface.sync(mapping_filtered);

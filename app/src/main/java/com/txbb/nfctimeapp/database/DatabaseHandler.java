@@ -155,7 +155,6 @@ public class DatabaseHandler {
      * @param context - activity
      */
     private void readTagsJson(Context context) {
-
         if (checkFileExists("tags.json", context)) {
             System.out.println("File Exists");
             String fileContent = readFileContent("tags.json", context);
@@ -390,8 +389,6 @@ public class DatabaseHandler {
      * @param tag - tag_id
      */
     public void updateTagProperties(TagProperties tag, Context context){
-        Log.i("TXBB1000", "DatabaseHandler::updateTagProperties: " + tag.getId());
-
         if (containsId(tag.getId(), context)){
             readTagsJson(context);
             TagProperties oldProperties = this.idToTag.get(tag.getId());
@@ -430,8 +427,20 @@ public class DatabaseHandler {
         readTagSessionsJson(context);
         readCategoryHistoryJson(context);
 
+//        String s = "";
+//        this.idToSessions.keySet();
+//        for (String j : this.idToSessions.keySet()) {
+//            s += j;
+//        }
+//        Log.i("TXBB1000", "the key we want" + id);
+//        Log.i("TXBB1000", "the key we get" + s);
+
         TagProperties tag = this.idToTag.get(id);
+
         ArrayList<Session> tag_sessions = this.idToSessions.get(id);
+//        if (!this.idToSessions.containsKey(id)) {
+//            tag_sessions = new ArrayList<>();
+//        }
         ArrayList<Session> cate_sessions = this.cateToSessions.get(tag.getCategory());
 
         Session session = new Session(startTime, endTime);

@@ -139,28 +139,23 @@ public class HomeFragment extends Fragment implements Actor {
         }
     }
 
-    private void addNewCard(String tagId, String tagName, Category category, long duration) {
-        String text = "Active for " + this.longToDuration(duration);
+    private void addNewCard(String tagId, String tagName, Category category, long duration, long totalDuration, boolean active) {
         String categoryName = category.getName();
         int categoryIconId = category.getIcon();
 
         for (TagCardView tagCardView : this.tagCardViews) {
             if (tagCardView.getTagId().equals(tagId)) {
-                tagCardView.updateText(text);
+                tagCardView.updateText(duration, totalDuration, active);
                 return;
             }
         }
 
-        TagCardView tagCardView = new TagCardView(getContext(), this, tagId, text, tagName, category);
+        TagCardView tagCardView = new TagCardView(getContext(), this, tagId, tagName, category);
+        tagCardView.updateText(duration, totalDuration, active);
         this.tagCardViews.add(tagCardView);
 
         LinearLayout linearLayout = getActivity().findViewById(R.id.lin_layout);
         linearLayout.addView(tagCardView);
-    }
-
-
-    private String longToDuration(long l) {
-        return (l / 60) + " minutes";
     }
 
 
@@ -191,28 +186,54 @@ public class HomeFragment extends Fragment implements Actor {
 
             TagProperties tagProperties = tags.get(tagId);
             long startTime = tagProperties.getStartTime();
+
+            Log.i("TXBB1003", tagId);
+            Log.i("TXBB1003", Long.toString(startTime));
+
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             long currentTime = timestamp.getTime() / 1000;
-
             long duration = currentTime - startTime;
 
             int categoryId = tagProperties.getCategory();
             CategoryManager categoryManager = ((CustomActivity) getActivity()).getCategoryManager();
             Category category = categoryManager.getCategoryFromId(categoryId);
 
+            long totalDuration = tagProperties.getDurationToday();
+            boolean active = tagProperties.getStartTime() != -1;
+
             String tagName = tagProperties.getName();
 
-            this.addNewCard(tagId, tagName, category, duration);
+            this.addNewCard(tagId, tagName, category, duration, totalDuration, active);
         }
     }
 
     @Override
     public void onTagStart(String id, long startTime, long durationToday) {
-        Log.i("TXXB1000", "HomeFragment::onTagStart");
+        Log.i("TXBB1001", "HomeFragment::onTagStart");
+
+        for (TagCardView tagCardView : this.tagCardViews) {
+            if (tagCardView.getTagId().equals(id)) {
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                long currentTime = timestamp.getTime() / 1000;
+                long duration = currentTime - startTime;
+
+                tagCardView.updateText(duration, durationToday, true);
+            }
+        }
+
     }
 
     @Override
     public void onTagStop(String id, long startTime, long durationToday) {
-        Log.i("TXXB1000", "HomeFragment::onTagStop");
+        Log.i("TXBB1001", "HomeFragment::onTagStop");
+
+        Log.i("TXBB1001", id);
+
+        for (TagCardView tagCardView : this.tagCardViews) {
+            if (tagCardView.getTagId().equals(id)) {
+                Log.i("TXBB1001", "1123123");
+                tagCardView.updateText(0, durationToday, false);
+            }
+        }
     }
 }
