@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.txbb.nfctimeapp.FrontBackInterface;
 import com.txbb.nfctimeapp.TagProperties;
+import com.txbb.nfctimeapp.database.DatabaseHandler;
 
 import java.time.Instant;
 
@@ -21,9 +22,11 @@ import java.util.UUID;
 public class TagManager {
 
     private FrontBackInterface frontBackInterface;
+    private DatabaseHandler db;
 
     public TagManager(FrontBackInterface frontBackInterface) {
         this.frontBackInterface = frontBackInterface;
+        this.db = DatabaseHandler.getDb();
     }
 
     // TagManager receives data from TagIO in standard state
