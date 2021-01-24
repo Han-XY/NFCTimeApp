@@ -24,8 +24,6 @@ public class TagIO extends AppCompatActivity {
     public void onNewIntent(Intent intent){
         super.onNewIntent(intent);
 
-        Toast.makeText(this, "GET INTENT!!!!", Toast.LENGTH_LONG).show();
-
         setIntent(intent);
 
         // get state
@@ -57,7 +55,8 @@ public class TagIO extends AppCompatActivity {
     }
 
     public void onStandardRead() {
-        if (!this.isTagEmpty()) {
+
+        if (!this.isTagEmpty() && this.isTag()) {
             frontBackInterface.getTagManager().onStandardRead(this.readTag());
         }
         // simply ignore the scan if the tag is empty
@@ -65,7 +64,7 @@ public class TagIO extends AppCompatActivity {
 
     public void onRegistrationRead() {
 
-        if (this.isTagEmpty()) {
+        if (this.isTagEmpty() && this.isTag()) {
             frontBackInterface.getTagManager().onRegistrationRead(true, null);
         } else {
             frontBackInterface.getTagManager().onRegistrationRead(false, this.readTag());
@@ -94,8 +93,12 @@ public class TagIO extends AppCompatActivity {
     }
 
 
+    private boolean isTag() {
+        return NfcAdapter.ACTION_TAG_DISCOVERED.equals(getIntent().getAction()) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction());
+    }
     private boolean isTagEmpty() {
         // check if the tag is empty;
+
         return NfcAdapter.ACTION_TAG_DISCOVERED.equals(getIntent().getAction());
     }
 
