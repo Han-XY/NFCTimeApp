@@ -29,6 +29,8 @@ import com.txbb.nfctimeapp.util.Units;
 
 import org.w3c.dom.Text;
 
+import java.util.Random;
+
 public class TagCardView extends CardView implements View.OnClickListener {
 
     private String title;
@@ -40,7 +42,13 @@ public class TagCardView extends CardView implements View.OnClickListener {
     private Fragment fragment;
 
     private int activeColor = 0xFFC0FFCE;
-    private int inactiveColor = 0xF5F14299;
+    private int inactiveColor = 0xFFFFE3BA;
+
+    private int[] colors = new int[] {
+            0xFF87F1FF, 0xFFC8FF8A, 0xFFDDBBFF, 0xFFA1D5FF, 0xFFFFDEAD
+    };
+
+    private int colorIndex;
 
     public TagCardView(@NonNull Context context, Fragment fragment, String tagId, String title, Category category) {
         super(context);
@@ -54,6 +62,8 @@ public class TagCardView extends CardView implements View.OnClickListener {
     }
 
     private void init() {
+        this.colorIndex = new Random().nextInt(5);
+
         this.setOnClickListener(this);
         this.setForegroundGravity(Gravity.CENTER_HORIZONTAL);
 
@@ -62,7 +72,7 @@ public class TagCardView extends CardView implements View.OnClickListener {
         int height = Units.dpConvert(80, displayMetrics);
 
         int padding = Units.dpConvert(8, displayMetrics);
-        int marginTop = Units.dpConvert(10, displayMetrics);
+        int marginTop = Units.dpConvert(15, displayMetrics);
 
         CardView.LayoutParams layoutParams = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
         layoutParams.setMargins(0, marginTop, 0, 0);
@@ -142,7 +152,7 @@ public class TagCardView extends CardView implements View.OnClickListener {
         if (!isActive) {
             this.setBackgroundColor(inactiveColor);
         } else {
-            this.setBackgroundColor(activeColor);
+            this.setBackgroundColor(colors[this.colorIndex]);
         }
 
         this.durationTextView.setText(text);

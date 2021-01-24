@@ -16,7 +16,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:background="#FFE3BA">
 
             <SearchView
                 android:id="@+id/homeSearchView"
@@ -210,6 +211,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_black_24dp" />
+        android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="@color/D" />
 
 </FrameLayout>

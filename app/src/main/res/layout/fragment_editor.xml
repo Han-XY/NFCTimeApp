@@ -72,6 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/D"
             app:srcCompat="@drawable/ic_delete" />
 
 
@@ -81,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/D"
             app:srcCompat="@drawable/ic_right_arrow" />
 
         <include
