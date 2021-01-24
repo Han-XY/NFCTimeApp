@@ -39,6 +39,9 @@ public class TagCardView extends CardView implements View.OnClickListener {
     private TextView durationTextView;
     private Fragment fragment;
 
+    private int activeColor = 0xFFC0FFCE;
+    private int inactiveColor = 0xF5F14299;
+
     public TagCardView(@NonNull Context context, Fragment fragment, String tagId, String title, Category category) {
         super(context);
         this.tagId = tagId;
@@ -66,7 +69,7 @@ public class TagCardView extends CardView implements View.OnClickListener {
 
         this.setPadding(padding, padding, padding, padding);
         this.setLayoutParams(layoutParams);
-        this.setCardBackgroundColor(0xFFC0FFCE);
+        this.setCardBackgroundColor(activeColor);
     }
 
     private void addOtherComponents() {
@@ -135,6 +138,13 @@ public class TagCardView extends CardView implements View.OnClickListener {
         } else {
             text = "Paused for now";
         }
+
+        if (!isActive) {
+            this.setBackgroundColor(inactiveColor);
+        } else {
+            this.setBackgroundColor(activeColor);
+        }
+
         this.durationTextView.setText(text);
     }
 

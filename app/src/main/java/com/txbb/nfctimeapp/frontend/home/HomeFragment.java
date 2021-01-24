@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment implements Actor {
             Category category = categoryManager.getCategoryFromId(categoryId);
 
             long totalDuration = tagProperties.getDurationToday();
-            boolean active = tagProperties.getStartTime() != -1;
+            boolean active = tagProperties.getStartTime() > 0;
 
             String tagName = tagProperties.getName();
 
