@@ -90,7 +90,7 @@ public class GeneralEditorFragment extends Fragment {
             // add button to table
             Category category = categoryList.get(i);
             CategoryImageButton button = new CategoryImageButton(getActivity(), category.getIcon(),
-                    new Random().nextInt(16777216), category);    // set random colour
+                    new Random().nextInt(16777216), category, this);    // set random colour
             this.buttonGroup.registerButton(button);
             iconRow.addView(button);
 
