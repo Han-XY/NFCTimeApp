@@ -7,19 +7,25 @@ import androidx.fragment.app.Fragment;
 
 import com.txbb.nfctimeapp.FrontBackInterface;
 import com.txbb.nfctimeapp.R;
+import com.txbb.nfctimeapp.TagProperties;
 import com.txbb.nfctimeapp.category.Category;
 import com.txbb.nfctimeapp.category.CategoryManager;
+import com.txbb.nfctimeapp.frontend.AppState;
 import com.txbb.nfctimeapp.frontend.home.HomeFragment;
 import com.txbb.nfctimeapp.frontend.registration.DesignerFragment;
 import com.txbb.nfctimeapp.frontend.registration.RegistrationFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class CustomActivity extends AppCompatActivity {
+public class CustomActivity extends AppCompatActivity implements Actor {
 
     // interfacing
     protected FrontBackInterface frontBackInterface;
+
+    // state
+    protected AppState appState;
 
     // registration variables
     protected String chosenName;
@@ -102,5 +108,46 @@ public class CustomActivity extends AppCompatActivity {
 
     public void setSelectedTagCategory(Category selectedTagCategory) {
         this.selectedTagCategory = selectedTagCategory;
+    }
+
+    @Override
+    public void onTagRegisterSuccess(String id) {
+        for (Actor actor : this.getFragments())
+            actor.onTagRegisterSuccess(id);
+    }
+
+    @Override
+    public void onTagRegisterFailure() {
+        for (Actor actor : this.getFragments())
+            actor.onTagRegisterFailure();
+    }
+
+    @Override
+    public void onScanRequest(AppState newState) {
+        for (Actor actor : this.getFragments())
+            actor.onScanRequest(newState);
+    }
+
+    @Override
+    public void onBadRegister() {
+        for (Actor actor : this.getFragments())
+            actor.onBadRegister();
+    }
+
+    @Override
+    public void sync(Map<String, TagProperties> tags) {
+        List<Actor> fragments = this.getFragments();
+
+        for (Actor actor : fragments) {
+            actor.sync(tags);
+        }
+    }
+
+    public void setState(AppState state) {
+        this.appState = state;
+    }
+
+    public AppState getAppState() {
+        return this.appState;
     }
 }

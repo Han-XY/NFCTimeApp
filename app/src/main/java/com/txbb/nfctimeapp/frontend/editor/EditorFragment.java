@@ -23,6 +23,7 @@ import com.txbb.nfctimeapp.backend.Actor;
 import com.txbb.nfctimeapp.backend.CustomActivity;
 import com.txbb.nfctimeapp.category.Category;
 import com.txbb.nfctimeapp.category.CategoryButtonGroup;
+import com.txbb.nfctimeapp.frontend.AppState;
 import com.txbb.nfctimeapp.frontend.GeneralEditorFragment;
 
 import java.util.Map;
@@ -80,6 +81,8 @@ public class EditorFragment extends GeneralEditorFragment implements Actor {
                     Toast.makeText(getActivity(), "Please select a category", Toast.LENGTH_LONG).show();
                     return;
                 }
+
+                startEdit(editText.getText().toString(), buttonGroup.getSelectedCategory());
             }
         });
 
@@ -100,21 +103,38 @@ public class EditorFragment extends GeneralEditorFragment implements Actor {
         String tagId = activity.getSelectedTagId();
 
         frontBackInterface.deleteTag(tagId);
+
+        // assume success
+    }
+
+    private void startEdit(String name, int category) {
+        Log.i("NFC", "Starting edit");
+        CustomActivity activity = (CustomActivity) getActivity();
+        FrontBackInterface frontBackInterface = activity.getFrontBackInterface();
+
+        String tagId = activity.getSelectedTagId();
+
+        frontBackInterface.updateTagProperties(tagId, new TagProperties(name, category));
     }
 
 
     @Override
-    public void onUnknownTagRead() {
+    public void onTagRegisterSuccess(String id) {
 
     }
 
     @Override
-    public void onKnownTagRead() {
+    public void onTagRegisterFailure() {
 
     }
 
     @Override
-    public void onTagRegister(String id) {
+    public void onScanRequest(AppState nextState) {
+
+    }
+
+    @Override
+    public void onBadRegister() {
 
     }
 
