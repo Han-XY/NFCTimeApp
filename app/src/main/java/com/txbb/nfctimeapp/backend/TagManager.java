@@ -37,7 +37,7 @@ public class TagManager {
      * @param id the id of the tag.
      */
     public void onStandardRead(String id) {
-        Log.i("TXBB1000", "onStandardRead");
+        Log.i("TXBB1000", "TagManager::onStandardRead");
 
         // check if this id is valid/existing
         // if id is not found:
@@ -91,7 +91,7 @@ public class TagManager {
      * @param id the id.
      */
     public void onRegistrationRead(boolean isEmpty, String id) {
-        Log.i("TXBB1000", "onRegistrationRead with id: " + id);
+        Log.i("TXBB1000", "TagManager::onRegistrationRead with id: " + id);
 
 
 //        if (isEmpty) {
@@ -106,10 +106,10 @@ public class TagManager {
 
         if (!db.containsId(id, currentActivity)) {
             frontBackInterface.oldTagRegistration();
-            Log.i("TXBB1000", "onRegistrationRead: id not found in DB");
+            Log.i("TXBB1000", "TagManager::onRegistrationRead: id not found in DB");
         } else {
             frontBackInterface.onKnownTagRegistration();
-            Log.i("TXBB1000", "onRegistrationRead: id found in DB");
+            Log.i("TXBB1000", "TagManager::onRegistrationRead: id found in DB");
         }
 
     }
@@ -117,6 +117,7 @@ public class TagManager {
     // set tagProperties for a tag id
     // used both for tag creation and tag update
     public void updateTag(String id, TagProperties tagProperties) {
+        Log.i("TXBB1000", "TagManager::updateTag");
 
         // we need to check if it's a new id or old id
         if (db.containsId(id,currentActivity)) {
@@ -128,6 +129,8 @@ public class TagManager {
         else {
             // new id, we need to call creatTag in db and do the relevant initialisation
             db.createTag(tagProperties,currentActivity);
+            Log.i("TXBB1000", "TagManager::updateTag::else");
+            db.debug();
         }
 
 

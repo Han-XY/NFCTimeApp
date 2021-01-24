@@ -275,12 +275,21 @@ public class DatabaseHandler {
 
         String allKeys = "";
         for (String s : idToTag.keySet()) {
-            allKeys += s;
+            allKeys += " " + s;
         }
 
         Log.i("TXBB1000", "All keys inside the JSON " + allKeys);
 
         return this.idToTag.containsKey(id);
+    }
+
+    public void debug() {
+        String allKeys = "";
+        for (String s : idToTag.keySet()) {
+            allKeys += " " + s;
+        }
+
+        Log.i("TXBB1000", "DatabaseHandler::debug All keys inside the JSON " + allKeys);
     }
 
     /**
